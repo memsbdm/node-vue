@@ -14,6 +14,6 @@ export default class RegisterController {
     await webRegister.handle({ data })
     session.flash('success', 'Successfully connected!')
 
-    return response.redirect().toPath('/register')
+    return response.redirect().toPath('/')
   }
 }
