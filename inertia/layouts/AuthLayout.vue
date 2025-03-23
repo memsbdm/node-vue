@@ -12,7 +12,7 @@ defineProps<{
       <nav class="flex items-center justify-between p-6 lg:px-8">
         <div class="flex lg:flex-1">
           <Link href="/" class="p-1.5 -m-1.5">
-            <span class="sr-only">AuthLayout</span>
+            <span class="sr-only">Restaurant App</span>
 
             <svg
               xmlns="http://www.w3.org/2000/svg"

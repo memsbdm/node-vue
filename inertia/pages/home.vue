@@ -4,6 +4,5 @@ import { Head } from '@inertiajs/vue3'
 
 <template>
   <Head title="Homepage" />
-
   <Button>Shadcn is working</Button>
 </template>
