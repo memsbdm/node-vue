@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "imports": {
+    "#actions/*": "./app/actions/*.js",
     "#controllers/*": "./app/controllers/*.js",
     "#enums/*": "./app/enums/*.js",
     "#exceptions/*": "./app/exceptions/*.js",
@@ -67,6 +68,7 @@
     "@inertiajs/vue3": "^2.0.5",
     "@vinejs/vine": "^3.0.0",
     "@vue/server-renderer": "^3.5.13",
+    "@vueuse/core": "^13.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "edge.js": "^6.2.1",
