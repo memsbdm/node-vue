@@ -12,7 +12,7 @@ export default class RegisterController {
   async store({ request, response, session }: HttpContext, webRegister: WebRegister) {
     const data = await request.validateUsing(registerValidator)
     await webRegister.handle({ data })
-    session.flash('success', 'Successfully connected!')
+    session.flash('success', 'Successfully logged in!')
 
     return response.redirect().toPath('/')
   }

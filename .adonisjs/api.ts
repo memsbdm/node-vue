@@ -19,6 +19,10 @@ type AuthLoginGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth/login_controller.ts').default['show'], false>
 }
+type AuthLogoutDelete = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/auth/logout_controller.ts').default['handle'], false>
+}
 export interface ApiDefinition {
   'auth': {
     'register': {
@@ -33,6 +37,11 @@ export interface ApiDefinition {
       };
       '$get': AuthLoginGetHead;
       '$head': AuthLoginGetHead;
+    };
+    'logout': {
+      '$url': {
+      };
+      '$delete': AuthLogoutDelete;
     };
   };
 }
@@ -57,6 +66,13 @@ const routes = [
     path: '/auth/login',
     method: ["GET","HEAD"],
     types: {} as AuthLoginGetHead,
+  },
+  {
+    params: [],
+    name: 'auth.logout',
+    path: '/auth/logout',
+    method: ["DELETE"],
+    types: {} as AuthLogoutDelete,
   },
 ] as const;
 export const api = {

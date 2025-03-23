@@ -54,7 +54,7 @@ import { Menu, Slash, Route } from 'lucide-vue-next'
         <Link href="/courses" class="flex items-center gap-2 text-lg font-semibold">
           <Route class="h-6 w-6" />
 
-          <span class="sr-only">PlotMyCourse</span>
+          <span class="sr-only">Restaurant App</span>
         </Link>
 
         <span>TODO: Rest SELECT</span>

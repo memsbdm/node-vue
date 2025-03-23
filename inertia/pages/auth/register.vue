@@ -14,10 +14,7 @@ const form = useForm({
 </script>
 
 <template>
-  <AppHead
-    title="Register"
-    description="Start plotting and planning your courses with ease by creating your PlotMyCourse account today"
-  />
+  <AppHead title="Register" description="Register your account" />
 
   <div class="flex flex-col space-y-2">
     <h1 class="text-2xl font-semibold tracking-tight">Register</h1>

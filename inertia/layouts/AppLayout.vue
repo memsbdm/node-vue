@@ -3,6 +3,7 @@ import UserDto from '#dtos/user'
 import { Link } from '@inertiajs/vue3'
 import { UserCircle } from 'lucide-vue-next'
 import ToastManager from '~/components/ToastManager.vue'
+import { tuyau } from '~/core/providers/tuyau'
 
 const props = defineProps<{
   user: UserDto
@@ -48,7 +49,12 @@ const props = defineProps<{
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem :as="Link" href="/logout" method="delete" class="w-full">
+            <DropdownMenuItem
+              :as="Link"
+              :href="tuyau.$url('auth.logout')"
+              method="delete"
+              class="w-full"
+            >
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
