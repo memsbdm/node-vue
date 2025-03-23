@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { tuyau } from '~/core/providers/tuyau'
+
 defineProps<{
   messages: Record<string, string | Record<string, string>>
 }>()
@@ -34,11 +36,18 @@ defineProps<{
         </div>
 
         <div class="flex flex-1 justify-end gap-4">
-          <Link href="/register" class="text-sm font-semibold leading-6 text-slate-900">
+          <Link
+            :href="tuyau.$url('auth.register.show')"
+            class="text-sm font-semibold leading-6 text-slate-900"
+          >
             Register
           </Link>
 
-          <Link href="/login" class="text-sm font-semibold leading-6 text-slate-900">Login</Link>
+          <Link
+            :href="tuyau.$url('auth.login.show')"
+            class="text-sm font-semibold leading-6 text-slate-900"
+            >Login</Link
+          >
         </div>
       </nav>
     </header>

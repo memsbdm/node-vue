@@ -2,6 +2,7 @@
 import AuthLayout from '~/layouts/AuthLayout.vue'
 import { useForm } from '@inertiajs/vue3'
 import { Loader } from 'lucide-vue-next'
+import { tuyau } from '~/core/providers/tuyau'
 
 defineOptions({ layout: AuthLayout })
 
@@ -21,13 +22,15 @@ const form = useForm({
   <div class="flex flex-col space-y-2">
     <h1 class="text-2xl font-semibold tracking-tight">Register</h1>
     <p class="text-sm text-muted-foreground">
-      <Link href="/login">Have an account? Login</Link>
+      <Link :href="tuyau.$url('auth.login.show')">Have an account? Login</Link>
     </p>
   </div>
 
   <form
     class="grid gap-3"
-    @submit.prevent="form.post('/register', { onSuccess: () => form.reset() })"
+    @submit.prevent="
+      form.post(tuyau.$url('auth.register.store'), { onSuccess: () => form.reset() })
+    "
   >
     <FormInput
       label="Full Name"

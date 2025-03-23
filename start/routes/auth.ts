@@ -1,10 +1,19 @@
-const RegisterController = () => import('#controllers/auth/register_controller')
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 
-router.get('/register', [RegisterController, 'show']).as('register.show').use(middleware.guest())
-router.post('/register', [RegisterController, 'store']).as('register.store').use(middleware.guest())
+const RegisterController = () => import('#controllers/auth/register_controller')
+const LoginController = () => import('#controllers/auth/login_controller')
 
-router.get('/login', (ctx) => {
-  return ctx.inertia.render('auth/login')
-})
+router
+  .group(() => {
+    router
+      .get('/register', [RegisterController, 'show'])
+      .as('auth.register.show')
+      .use(middleware.guest())
+    router
+      .post('/register', [RegisterController, 'store'])
+      .as('auth.register.store')
+      .use(middleware.guest())
+    router.get('/login', [LoginController, 'show']).as('auth.login.show').use(middleware.guest())
+  })
+  .prefix('/auth')
