@@ -15,7 +15,7 @@ export default defineConfig({
     () => import('@adonisjs/lucid/commands'),
     () => import('@tuyau/core/commands'),
     () => import('@adocasts.com/dto/commands'),
-    () => import('@adocasts.com/actions/commands')
+    () => import('@adocasts.com/actions/commands'),
   ],
 
   /*
@@ -56,8 +56,8 @@ export default defineConfig({
   |
   */
   preloads: [
-    () => import('#start/routes/auth'),
     () => import('#start/routes/web'),
+    () => import('#start/routes/api'),
     () => import('#start/kernel'),
   ],
 

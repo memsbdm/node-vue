@@ -9,7 +9,7 @@ import Article from './article.js'
 
 export default class Restaurant extends BaseModel {
   @column({ isPrimary: true })
-  declare id: number
+  declare id: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -21,19 +21,10 @@ export default class Restaurant extends BaseModel {
   declare name: string
 
   @column()
-  declare description: string
+  declare description: string | null
 
   @column()
-  declare addressLine: string
-
-  @column()
-  declare locality: string
-
-  @column()
-  declare regionCode: string
-
-  @column()
-  declare postalCode: string
+  declare address: string
 
   @column()
   declare lat: number | null
@@ -46,6 +37,9 @@ export default class Restaurant extends BaseModel {
 
   @column()
   declare imageUrl: string | null
+
+  @column()
+  declare placeId: string
 
   @hasMany(() => Menu)
   declare menus: HasMany<typeof Menu>

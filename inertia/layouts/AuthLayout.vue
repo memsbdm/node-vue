@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type UserDto from '#dtos/user'
 import { tuyau } from '~/core/providers/tuyau'
 
 defineProps<{
+  user?: UserDto
   messages: Record<string, string | Record<string, string>>
 }>()
 </script>
@@ -35,16 +37,16 @@ defineProps<{
           </Link>
         </div>
 
-        <div class="flex flex-1 justify-end gap-4">
+        <div v-if="!user" class="flex flex-1 justify-end gap-4">
           <Link
-            :href="tuyau.$url('auth.register.show')"
+            :href="tuyau.$url('auth.login.render')"
             class="text-sm font-semibold leading-6 text-slate-900"
           >
             Register
           </Link>
 
           <Link
-            :href="tuyau.$url('auth.login.show')"
+            :href="tuyau.$url('auth.login.render')"
             class="text-sm font-semibold leading-6 text-slate-900"
             >Login</Link
           >

@@ -19,14 +19,14 @@ const form = useForm({
   <div class="flex flex-col space-y-2">
     <h1 class="text-2xl font-semibold tracking-tight">Register</h1>
     <p class="text-sm text-muted-foreground">
-      <Link :href="tuyau.$url('auth.login.show')">Have an account? Login</Link>
+      <Link :href="tuyau.$url('auth.login.render')">Have an account? Login</Link>
     </p>
   </div>
 
   <form
     class="grid gap-3"
     @submit.prevent="
-      form.post(tuyau.$url('auth.register.store'), { onSuccess: () => form.reset() })
+      form.post(tuyau.$url('auth.register.handle'), { onSuccess: () => form.reset() })
     "
   >
     <FormInput
@@ -34,27 +34,25 @@ const form = useForm({
       v-model="form.fullName"
       :error="form.errors.fullName"
       :disabled="form.processing"
+      :required="true"
     />
 
-    <div class="grid gap-1">
-      <Label class="grid gap-1">
-        <span>Email</span>
-        <Input type="email" v-model="form.email" />
-      </Label>
-      <div v-if="form.errors.email" class="text-red-500 text-sm">
-        {{ form.errors.email }}
-      </div>
-    </div>
+    <FormInput
+      label="Email"
+      v-model="form.email"
+      :error="form.errors.email"
+      :disabled="form.processing"
+      :required="true"
+      type="email"
+    />
 
-    <div class="grid gap-1">
-      <Label class="grid gap-1">
-        <span>Password</span>
-        <Input type="password" v-model="form.password" />
-      </Label>
-      <div v-if="form.errors.password" class="text-red-500 text-sm">
-        {{ form.errors.password }}
-      </div>
-    </div>
+    <FormInput
+      label="Password"
+      v-model="form.password"
+      :error="form.errors.password"
+      :disabled="form.processing"
+      :required="true"
+    />
 
     <Button type="submit" :disabled="form.processing">
       <Loader v-if="form.processing" class="mr-2 h-4 w-4 animate-spin" />

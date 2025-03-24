@@ -6,19 +6,17 @@ import ArticleDto from '#dtos/article'
 import RestaurantInviteDto from '#dtos/restaurant_invite'
 
 export default class RestaurantDto extends BaseModelDto {
-  declare id: number
+  declare id: string
   declare createdAt: string
   declare updatedAt: string
   declare name: string
-  declare description: string
-  declare addressLine: string
-  declare locality: string
-  declare regionCode: string
-  declare postalCode: string
+  declare description: string | null
+  declare address: string
   declare lat: number | null
   declare lng: number | null
   declare phone: string | null
   declare imageUrl: string | null
+  declare placeId: string
   declare menus: MenuDto[]
   declare categories: CategoryDto[]
   declare articles: ArticleDto[]
@@ -33,14 +31,12 @@ export default class RestaurantDto extends BaseModelDto {
     this.updatedAt = restaurant.updatedAt.toISO()!
     this.name = restaurant.name
     this.description = restaurant.description
-    this.addressLine = restaurant.addressLine
-    this.locality = restaurant.locality
-    this.regionCode = restaurant.regionCode
-    this.postalCode = restaurant.postalCode
+    this.address = restaurant.address
     this.lat = restaurant.lat
     this.lng = restaurant.lng
     this.phone = restaurant.phone
     this.imageUrl = restaurant.imageUrl
+    this.placeId = restaurant.placeId
     this.menus = MenuDto.fromArray(restaurant.menus)
     this.categories = CategoryDto.fromArray(restaurant.categories)
     this.articles = ArticleDto.fromArray(restaurant.articles)

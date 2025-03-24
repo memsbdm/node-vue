@@ -8,6 +8,6 @@ export default class LogoutController {
     await webLogout.handle()
     session.flash('success', 'Successfully logged out')
 
-    return response.redirect().toRoute('auth.login.show')
+    return response.redirect().toRoute('auth.login.render')
   }
 }

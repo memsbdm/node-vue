@@ -12,7 +12,7 @@ defineOptions({ layout: AuthLayout })
   <div class="flex flex-col space-y-2">
     <h1 class="text-2xl font-semibold tracking-tight">Login</h1>
     <p class="text-sm text-muted-foreground">
-      <Link :href="tuyau.$url('auth.register.show')" class="text-sm text-muted-foreground">
+      <Link :href="tuyau.$url('auth.register.render')" class="text-sm text-muted-foreground">
         Need an account? Register
       </Link>
     </p>

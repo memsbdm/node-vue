@@ -51,7 +51,7 @@ const props = defineProps<{
 
             <DropdownMenuItem
               :as="Link"
-              :href="tuyau.$url('auth.logout')"
+              :href="tuyau.$url('auth.logout.handle')"
               method="delete"
               class="w-full"
             >

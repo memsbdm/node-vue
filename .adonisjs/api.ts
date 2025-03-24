@@ -9,19 +9,31 @@ import type { InferInput } from '@vinejs/vine/types'
 
 type AuthRegisterGetHead = {
   request: unknown
-  response: MakeTuyauResponse<import('../app/controllers/auth/register_controller.ts').default['show'], false>
+  response: MakeTuyauResponse<import('../app/controllers/auth/register_controller.ts').default['render'], false>
 }
 type AuthRegisterPost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/auth.ts')['registerValidator']>>
-  response: MakeTuyauResponse<import('../app/controllers/auth/register_controller.ts').default['store'], true>
+  response: MakeTuyauResponse<import('../app/controllers/auth/register_controller.ts').default['handle'], true>
 }
 type AuthLoginGetHead = {
   request: unknown
-  response: MakeTuyauResponse<import('../app/controllers/auth/login_controller.ts').default['show'], false>
+  response: MakeTuyauResponse<import('../app/controllers/auth/login_controller.ts').default['render'], false>
 }
 type AuthLogoutDelete = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth/logout_controller.ts').default['handle'], false>
+}
+type RestaurantsCreateGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/restaurants/store_restaurant_controller.ts').default['render'], false>
+}
+type RestaurantsCreatePost = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/restaurants/store_restaurant_controller.ts').default['handle'], false>
+}
+type ApiV1GooglePlacesautocompletePost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
 }
 export interface ApiDefinition {
   'auth': {
@@ -44,35 +56,76 @@ export interface ApiDefinition {
       '$delete': AuthLogoutDelete;
     };
   };
+  'restaurants': {
+    'create': {
+      '$url': {
+      };
+      '$get': RestaurantsCreateGetHead;
+      '$head': RestaurantsCreateGetHead;
+      '$post': RestaurantsCreatePost;
+    };
+  };
+  'api': {
+    'v1': {
+      'google': {
+        'places-autocomplete': {
+          '$url': {
+          };
+          '$post': ApiV1GooglePlacesautocompletePost;
+        };
+      };
+    };
+  };
 }
 const routes = [
   {
     params: [],
-    name: 'auth.register.show',
+    name: 'auth.register.render',
     path: '/auth/register',
     method: ["GET","HEAD"],
     types: {} as AuthRegisterGetHead,
   },
   {
     params: [],
-    name: 'auth.register.store',
+    name: 'auth.register.handle',
     path: '/auth/register',
     method: ["POST"],
     types: {} as AuthRegisterPost,
   },
   {
     params: [],
-    name: 'auth.login.show',
+    name: 'auth.login.render',
     path: '/auth/login',
     method: ["GET","HEAD"],
     types: {} as AuthLoginGetHead,
   },
   {
     params: [],
-    name: 'auth.logout',
+    name: 'auth.logout.handle',
     path: '/auth/logout',
     method: ["DELETE"],
     types: {} as AuthLogoutDelete,
+  },
+  {
+    params: [],
+    name: 'restaurants.create.render',
+    path: '/restaurants/create',
+    method: ["GET","HEAD"],
+    types: {} as RestaurantsCreateGetHead,
+  },
+  {
+    params: [],
+    name: 'restaurants.create.handle',
+    path: '/restaurants/create',
+    method: ["POST"],
+    types: {} as RestaurantsCreatePost,
+  },
+  {
+    params: [],
+    name: 'api.google.autocomplete',
+    path: '/api/v1/google/places-autocomplete',
+    method: ["POST"],
+    types: {} as ApiV1GooglePlacesautocompletePost,
   },
 ] as const;
 export const api = {
