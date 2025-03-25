@@ -14,13 +14,13 @@ defineProps<{
 
 const form = useForm({
   email: '',
-
   password: '',
+  remember: false,
 })
 </script>
 
 <template>
-  <AppHead title="Login" description="Login to your PlotMyCourse account" />
+  <AppHead title="Login" description="Login to your account" />
 
   <div class="flex flex-col space-y-2">
     <h1 class="text-2xl font-semibold tracking-tight">Login</h1>
@@ -55,6 +55,17 @@ const form = useForm({
         :error="form.errors.password"
         :required="true"
       />
+
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div class="flex items-center gap-2">
+          <Checkbox v-model:checked="form.remember" />
+          <span>Remember me</span>
+        </div>
+
+        <Link :href="tuyau.$url('auth.forgot-password.render')" class="text-sm underline"
+          >Forgot Password</Link
+        >
+      </div>
 
       <Button type="submit" :disable="form.processing">
         <Loader v-if="form.processing" class="mr-2 h-4 w-4 animate-spin" />

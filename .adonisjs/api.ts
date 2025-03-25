@@ -27,6 +27,22 @@ type AuthLogoutDelete = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth/logout_controller.ts').default['handle'], false>
 }
+type AuthForgotpasswordGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/auth/forgot_password_controller.ts').default['render'], false>
+}
+type AuthForgotpasswordPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/auth.ts')['passwordResetSendValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/auth/forgot_password_controller.ts').default['send'], true>
+}
+type AuthForgotpasswordResetIdGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/auth/forgot_password_controller.ts').default['reset'], false>
+}
+type AuthForgotpasswordResetPost = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/auth/forgot_password_controller.ts').default['update'], false>
+}
 type RestaurantsCreateGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/restaurants/store_restaurant_controller.ts').default['render'], false>
@@ -59,6 +75,24 @@ export interface ApiDefinition {
       '$url': {
       };
       '$delete': AuthLogoutDelete;
+    };
+    'forgot-password': {
+      '$url': {
+      };
+      '$get': AuthForgotpasswordGetHead;
+      '$head': AuthForgotpasswordGetHead;
+      '$post': AuthForgotpasswordPost;
+      'reset': {
+        ':value': {
+          '$url': {
+          };
+          '$get': AuthForgotpasswordResetIdGetHead;
+          '$head': AuthForgotpasswordResetIdGetHead;
+        };
+        '$url': {
+        };
+        '$post': AuthForgotpasswordResetPost;
+      };
     };
   };
   'restaurants': {
@@ -117,6 +151,34 @@ const routes = [
     path: '/auth/logout',
     method: ["DELETE"],
     types: {} as AuthLogoutDelete,
+  },
+  {
+    params: [],
+    name: 'auth.forgot-password.render',
+    path: '/auth/forgot-password',
+    method: ["GET","HEAD"],
+    types: {} as AuthForgotpasswordGetHead,
+  },
+  {
+    params: [],
+    name: 'auth.forgot-password.send',
+    path: '/auth/forgot-password',
+    method: ["POST"],
+    types: {} as AuthForgotpasswordPost,
+  },
+  {
+    params: ["value"],
+    name: 'auth.forgot-password.reset',
+    path: '/auth/forgot-password/reset/:value',
+    method: ["GET","HEAD"],
+    types: {} as AuthForgotpasswordResetIdGetHead,
+  },
+  {
+    params: [],
+    name: 'auth.forgot-password.update',
+    path: '/auth/forgot-password/reset',
+    method: ["POST"],
+    types: {} as AuthForgotpasswordResetPost,
   },
   {
     params: [],
