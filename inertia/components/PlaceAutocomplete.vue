@@ -8,6 +8,7 @@ import { useDebounceFn } from '@vueuse/core'
 
 let input = ref('')
 const places = ref<PlaceAutocompleteDto[]>([])
+const processing = ref(false)
 
 const props = defineProps<{
   modelValue: string
@@ -29,6 +30,7 @@ function handleInput(event: InputEvent) {
 }
 
 const debouncedFetchPlaces = useDebounceFn(async (value: string) => {
+  processing.value = true
   internalValue.value = ''
 
   if (!value) {
@@ -45,6 +47,7 @@ const debouncedFetchPlaces = useDebounceFn(async (value: string) => {
   })
   const json = await res.json()
   places.value = json
+  processing.value = false
 }, 300)
 
 const value = ref<(typeof places.value)[0]>()
@@ -70,7 +73,10 @@ function selectPlace(place: PlaceAutocompleteDto) {
         </span>
       </div>
     </ComboboxAnchor>
-    <ComboboxList class="w-80" v-if="!internalValue && input.length > 3 && places.length === 0">
+    <ComboboxList
+      class="w-80"
+      v-if="!processing && !internalValue && input.length > 3 && places.length === 0"
+    >
       <ComboboxEmpty> No place found. </ComboboxEmpty>
     </ComboboxList>
     <ComboboxGroup v-if="places.length > 0">

@@ -39,7 +39,7 @@ defineProps<{
 
         <div v-if="!user" class="flex flex-1 justify-end gap-4">
           <Link
-            :href="tuyau.$url('auth.login.render')"
+            :href="tuyau.$url('auth.register.render')"
             class="text-sm font-semibold leading-6 text-slate-900"
           >
             Register
