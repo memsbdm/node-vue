@@ -52,6 +52,7 @@ const form = useForm({
       :error="form.errors.password"
       :disabled="form.processing"
       :required="true"
+      type="password"
     />
 
     <Button type="submit" :disabled="form.processing">

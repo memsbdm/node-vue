@@ -8,6 +8,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Alert: typeof import('./inertia/components/ui/alert/Alert.vue')['default']
+    AlertDescription: typeof import('./inertia/components/ui/alert/AlertDescription.vue')['default']
+    AlertTitle: typeof import('./inertia/components/ui/alert/AlertTitle.vue')['default']
     AppHead: typeof import('./inertia/components/AppHead.vue')['default']
     Button: typeof import('./inertia/components/ui/button/Button.vue')['default']
     Combobox: typeof import('./inertia/components/ui/combobox/Combobox.vue')['default']

@@ -13,6 +13,7 @@ router
     router.get('/register', [RegisterController, 'render']).as('auth.register.render').use(middleware.guest())
     router.post('/register', [RegisterController, 'handle']).as('auth.register.handle').use(middleware.guest())
     router.get('/login', [LoginController, 'render']).as('auth.login.render').use(middleware.guest())
+    router.post('/login', [LoginController, 'handle']).as('auth.login.handle').use(middleware.guest())
     router.delete('/logout', [LogoutController, 'handle']).as('auth.logout.handle').use(middleware.auth())
   })
   .prefix('/auth')

@@ -19,6 +19,10 @@ type AuthLoginGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth/login_controller.ts').default['render'], false>
 }
+type AuthLoginPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/auth.ts')['loginValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/auth/login_controller.ts').default['handle'], true>
+}
 type AuthLogoutDelete = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth/logout_controller.ts').default['handle'], false>
@@ -28,8 +32,8 @@ type RestaurantsCreateGetHead = {
   response: MakeTuyauResponse<import('../app/controllers/restaurants/store_restaurant_controller.ts').default['render'], false>
 }
 type RestaurantsCreatePost = {
-  request: unknown
-  response: MakeTuyauResponse<import('../app/controllers/restaurants/store_restaurant_controller.ts').default['handle'], false>
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/restaurant.ts')['storeRestaurantValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/restaurants/store_restaurant_controller.ts').default['handle'], true>
 }
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
@@ -49,6 +53,7 @@ export interface ApiDefinition {
       };
       '$get': AuthLoginGetHead;
       '$head': AuthLoginGetHead;
+      '$post': AuthLoginPost;
     };
     'logout': {
       '$url': {
@@ -98,6 +103,13 @@ const routes = [
     path: '/auth/login',
     method: ["GET","HEAD"],
     types: {} as AuthLoginGetHead,
+  },
+  {
+    params: [],
+    name: 'auth.login.handle',
+    path: '/auth/login',
+    method: ["POST"],
+    types: {} as AuthLoginPost,
   },
   {
     params: [],
