@@ -1,6 +1,7 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const ActiveRestaurantController = () => import('#controllers/restaurants/active_restaurant_controller')
 const StoreRestaurantController = () => import('#controllers/restaurants/store_restaurant_controller')
 const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
@@ -27,6 +28,7 @@ router
 router.group(() => {
   router.get('/create', [StoreRestaurantController, 'render']).as('create.render')
   router.post('/create', [StoreRestaurantController, 'handle']).as('create.handle')
+  router.get('/:id', [ActiveRestaurantController, 'handle']).as('active.handle')
 })
   .use(middleware.auth())
   .prefix('/restaurants')

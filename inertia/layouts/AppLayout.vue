@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RestaurantDto from '#dtos/restaurant'
 import UserDto from '#dtos/user'
 import { Link } from '@inertiajs/vue3'
 import { UserCircle } from 'lucide-vue-next'
@@ -6,6 +7,8 @@ import ToastManager from '~/components/ToastManager.vue'
 import { tuyau } from '~/core/providers/tuyau'
 
 const props = defineProps<{
+  restaurant: RestaurantDto
+  restaurants: RestaurantDto[]
   user: UserDto
   messages: Record<string, string | Record<string, string>>
 }>()

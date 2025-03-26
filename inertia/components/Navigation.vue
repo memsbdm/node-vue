@@ -1,5 +1,12 @@
 <script lang="ts" setup>
 import { Menu, Slash, Route } from 'lucide-vue-next'
+import RestaurantSelect from './RestaurantSelect.vue'
+import RestaurantDto from '#dtos/restaurant'
+
+const props = defineProps<{
+  restaurant: RestaurantDto
+  restaurants: RestaurantDto[]
+}>()
 </script>
 
 <template>
@@ -12,8 +19,7 @@ import { Menu, Slash, Route } from 'lucide-vue-next'
 
     <div class="flex items-center">
       <Slash class="text-slate-300 w-4 h-4 -rotate-12" />
-
-      <span>TODO: Rest SELECT</span>
+      <RestaurantSelect v-bind="props" />
 
       <Slash class="text-slate-300 w-4 h-4 -rotate-12" />
     </div>
@@ -57,7 +63,7 @@ import { Menu, Slash, Route } from 'lucide-vue-next'
           <span class="sr-only">Restaurant App</span>
         </Link>
 
-        <span>TODO: Rest SELECT</span>
+        <RestaurantSelect v-bind="props" />
 
         <Link href="/menus" class="mobile-link" :class="{ active: $page.url.startsWith('/menus') }">
           Menus

@@ -1,5 +1,6 @@
 import GetActiveRestaurant from '#actions/restaurants/http/get_active_restaurant'
 import { activeCookieName } from '#config/restaurant'
+import RestaurantDto from '#dtos/restaurant'
 import Restaurant from '#models/restaurant'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -30,6 +31,12 @@ export default class RestaurantMiddleware {
       ctx.session.reflash()
       return ctx.response.redirect().toRoute('restaurants.create.render')
     }
+
+    const restaurants = await user.related('restaurants').query().orderBy('name')
+    ctx.inertia.share({
+      restaurant: new RestaurantDto(ctx.restaurant),
+      restaurants: RestaurantDto.fromArray(restaurants),
+    })
 
     const output = await next()
     return output

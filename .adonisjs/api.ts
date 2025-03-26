@@ -40,8 +40,8 @@ type AuthForgotpasswordResetIdGetHead = {
   response: MakeTuyauResponse<import('../app/controllers/auth/forgot_password_controller.ts').default['reset'], false>
 }
 type AuthForgotpasswordResetPost = {
-  request: unknown
-  response: MakeTuyauResponse<import('../app/controllers/auth/forgot_password_controller.ts').default['update'], false>
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/auth.ts')['passwordResetValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/auth/forgot_password_controller.ts').default['update'], true>
 }
 type RestaurantsCreateGetHead = {
   request: unknown
@@ -50,6 +50,10 @@ type RestaurantsCreateGetHead = {
 type RestaurantsCreatePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/restaurant.ts')['storeRestaurantValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/restaurants/store_restaurant_controller.ts').default['handle'], true>
+}
+type RestaurantsIdGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/restaurants/active_restaurant_controller.ts').default['handle'], false>
 }
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
@@ -102,6 +106,12 @@ export interface ApiDefinition {
       '$get': RestaurantsCreateGetHead;
       '$head': RestaurantsCreateGetHead;
       '$post': RestaurantsCreatePost;
+    };
+    ':id': {
+      '$url': {
+      };
+      '$get': RestaurantsIdGetHead;
+      '$head': RestaurantsIdGetHead;
     };
   };
   'api': {
@@ -193,6 +203,13 @@ const routes = [
     path: '/restaurants/create',
     method: ["POST"],
     types: {} as RestaurantsCreatePost,
+  },
+  {
+    params: ["id"],
+    name: 'restaurants.active.handle',
+    path: '/restaurants/:id',
+    method: ["GET","HEAD"],
+    types: {} as RestaurantsIdGetHead,
   },
   {
     params: [],

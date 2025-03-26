@@ -1,25 +1,29 @@
+import SetActiveRestaurant from '#actions/restaurants/http/set_active_restaurant'
 import StoreRestaurant from '#actions/restaurants/store_restaurant'
 import { storeRestaurantValidator } from '#validators/restaurant'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import { SimpleMessagesProvider } from '@vinejs/vine'
 
+@inject()
 export default class StoreRestaurantController {
+  constructor(
+    protected setActiveRestaurant: SetActiveRestaurant,
+    protected storeRestaurant: StoreRestaurant
+  ) {}
+
   render({ inertia }: HttpContext) {
     return inertia.render('restaurants/create')
   }
-
-  @inject()
-  async handle(
-    { auth, request, response, session }: HttpContext,
-    storeRestaurant: StoreRestaurant
-  ) {
+  async handle({ auth, request, response, session }: HttpContext) {
     const data = await request.validateUsing(storeRestaurantValidator, {
       messagesProvider: new SimpleMessagesProvider({
         'database.unique': 'This place is already registered',
       }),
     })
-    await storeRestaurant.handle({ user: auth.use('web').user!, data })
+    const restaurant = await this.storeRestaurant.handle({ user: auth.use('web').user!, data })
+
+    this.setActiveRestaurant.handle({ id: restaurant.id })
     session.flash('success', 'Successfully added!')
 
     return response.redirect().toPath('/')
