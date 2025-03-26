@@ -7,7 +7,7 @@ const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const ForgotPasswordController = () => import('#controllers/auth/forgot_password_controller')
 
-router.on('/').renderInertia('home').use(middleware.auth())
+router.on('/').renderInertia('home').use(middleware.auth()).use(middleware.restaurant())
 
 router
   .group(() => {

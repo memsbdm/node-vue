@@ -45,7 +45,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare verifyEmailTokens: HasMany<typeof VerifyEmailToken>
 
   @manyToMany(() => Restaurant, {
-    pivotTable: 'restautant_users',
+    pivotTable: 'restaurant_users',
     pivotColumns: ['role_id'],
   })
   declare restaurants: ManyToMany<typeof Restaurant>
