@@ -9,16 +9,12 @@ type Params = {
 
 export default class StoreMenu {
   static async handle({ restaurant, data }: Params) {
-    const lastDifficulty = await restaurant
-      .related('menus')
-      .query()
-      .orderBy('order', 'desc')
-      .first()
+    const lastMenu = await restaurant.related('menus').query().orderBy('order', 'desc').first()
 
     return restaurant.related('menus').create({
       ...data,
-      order: lastDifficulty ? lastDifficulty.order + 1 : 0,
-      isDefault: !lastDifficulty,
+      order: lastMenu ? lastMenu.order + 1 : 0,
+      isActive: !lastMenu,
     })
   }
 }

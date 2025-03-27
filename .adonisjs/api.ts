@@ -59,9 +59,17 @@ type MenusGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/menus/store_menu_controller.ts').default['render'], false>
 }
+type MenusIdGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/menus/show_menu_controller.ts').default['render'], false>
+}
 type MenusPost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/menu.ts')['menuValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/menus/store_menu_controller.ts').default['handle'], true>
+}
+type MenusOrderPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/menu.ts')['menuOrderValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/menus/update_menu_order_controller.ts').default['handle'], true>
 }
 type MenusIdPut = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/menu.ts')['menuValidator']>>
@@ -135,12 +143,19 @@ export interface ApiDefinition {
     };
     '$get': MenusGetHead;
     '$head': MenusGetHead;
-    '$post': MenusPost;
     ':id': {
       '$url': {
       };
+      '$get': MenusIdGetHead;
+      '$head': MenusIdGetHead;
       '$put': MenusIdPut;
       '$delete': MenusIdDelete;
+    };
+    '$post': MenusPost;
+    'order': {
+      '$url': {
+      };
+      '$put': MenusOrderPut;
     };
   };
   'api': {
@@ -248,11 +263,25 @@ const routes = [
     types: {} as MenusGetHead,
   },
   {
+    params: ["id"],
+    name: 'menus.show.render',
+    path: '/menus/:id',
+    method: ["GET","HEAD"],
+    types: {} as MenusIdGetHead,
+  },
+  {
     params: [],
     name: 'menus.store.handle',
     path: '/menus',
     method: ["POST"],
     types: {} as MenusPost,
+  },
+  {
+    params: [],
+    name: 'menus.order.handle',
+    path: '/menus/order',
+    method: ["PUT"],
+    types: {} as MenusOrderPut,
   },
   {
     params: ["id"],

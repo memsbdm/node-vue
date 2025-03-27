@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import MenuDto from '#dtos/menu'
 import RestaurantDto from '#dtos/restaurant'
-import { Pencil, Plus, Trash2 } from 'lucide-vue-next'
+import { Link, router } from '@inertiajs/vue3'
+import { EllipsisVertical, Plus, GripVertical } from 'lucide-vue-next'
 import { ref, watchEffect } from 'vue'
 import { useResourceActions } from '~/composables/resource_actions'
 import { tuyau } from '~/core/providers/tuyau'
+import Sortable from 'vuedraggable'
 
 const props = defineProps<{
-  menus: MenuDto[]
   restaurant: RestaurantDto
+  menus: MenuDto[]
 }>()
 
 const list = ref(props.menus)
 const { form, dialog, destroy, onSuccess } = useResourceActions<MenuDto>()({
   name: '',
 })
-
-watchEffect(() => (list.value = props.menus))
 
 function onEdit(resource: MenuDto) {
   dialog.value.open(resource, {
@@ -27,42 +27,27 @@ function onEdit(resource: MenuDto) {
 function onDestroyShow(resource: MenuDto) {
   destroy.value.open(resource)
 }
+
+function onOrderUpdate() {
+  const ids = list.value.map((menu) => menu.id)
+  router.put(tuyau.$url('menus.order.handle'), { ids }, { preserveScroll: true })
+}
+
+watchEffect(() => (list.value = props.menus))
 </script>
 
 <template>
-  <AppHead title="menus" :description="`Manage the menus of ${restaurant.name}`" />
+  <AppHead title="Menus" :description="`Manage menus of ${restaurant.name}`" />
 
-  <div class="w-full max-w-2xl mx-auto bg-background rounded-xl p-4">
+  <div class="w-full max-w-screen-lg mx-auto bg-background border rounded-xl py-4 lg:px-4">
     <div class="flex items-center justify-between mb-3">
-      <h1 class="text-2xl font-bold px-4">Menus</h1>
+      <h1 class="text-2xl font-bold px-2">Menus</h1>
 
       <Button size="sm" variant="ghost" @click="dialog.open()">
         <Plus class="w-3 h-3 mr-2" />
         Add Menu
       </Button>
     </div>
-
-    <ul class="flex flex-col">
-      <li
-        v-for="item in list"
-        :key="item.id"
-        class="flex items-center justify-between rounded-md px-3 py-1.5 hover:bg-slate-100 duration-300 group"
-      >
-        <div class="flex items-center gap-4">
-          <span class="font-bold">{{ item.name }}</span>
-          <span v-if="item.isDefault" class="text-sm text-slate-400">(Default)</span>
-        </div>
-
-        <div class="flex gap-2 opacity-0 group-hover:opacity-100 duration-300">
-          <Button size="xs" @click="onEdit(item)">
-            <Pencil class="w-3 h-3" aria-label="Edit Menu" />
-          </Button>
-          <Button size="xs" variant="destructive" @click="onDestroyShow(item)">
-            <Trash2 class="w-3 h-3" aria-label="Delete Menu" />
-          </Button>
-        </div>
-      </li>
-    </ul>
 
     <FormDialog
       resource="Menu"
@@ -71,9 +56,14 @@ function onDestroyShow(resource: MenuDto) {
       :processing="form.processing"
       @create="form.post(tuyau.$url('menus.store.handle'), { onSuccess })"
       @update="
-        form.put(tuyau.$url('menus.update.handle', { params: { id: dialog.resource!.id } }), {
-          onSuccess,
-        })
+        form.put(
+          dialog.resource
+            ? tuyau.$url('menus.update.handle', { params: { id: dialog.resource?.id } })
+            : '',
+          {
+            onSuccess,
+          }
+        )
       "
     >
       <FormInput label="Name" v-model="form.name" :error="form.errors.name" />
@@ -87,8 +77,68 @@ function onDestroyShow(resource: MenuDto) {
           ? tuyau.$url('menus.delete.handle', { params: { id: destroy.resource.id } })
           : ''
       "
+      >Are you sure to delete <strong>{{ destroy.resource?.name }}</strong
+      >?</ConfirmDestroyDialog
     >
-      Are you sure you'd like to delete your <strong>{{ destroy.resource?.name }}</strong> menu?
-    </ConfirmDestroyDialog>
+
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead> Name </TableHead>
+          <TableHead> Status </TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <Sortable
+        v-if="list?.length"
+        v-model="list"
+        item-key="id"
+        handle=".handle"
+        tag="tbody"
+        class="[&_tr:last-child]:border-0"
+        @end="onOrderUpdate"
+      >
+        <template #item="{ element: menu }">
+          <TableRow class="group">
+            <TableCell>
+              <div class="flex items-center gap-3">
+                <div
+                  class="text-slate-300 group-hover:text-slate-950 duration-300 handle cursor-move"
+                >
+                  <GripVertical class="w-4 h-4" />
+                </div>
+                <Link
+                  :href="''"
+                  class="hover:underline"
+                  :class="menu.isActive ? 'font-semibold' : ''"
+                >
+                  {{ menu.name }}
+                </Link>
+              </div>
+            </TableCell>
+            <TableCell :class="menu.isActive ? 'font-semibold' : ''">
+              {{ menu.isActive ? 'Active' : 'Not active' }}
+            </TableCell>
+            <TableCell>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <EllipsisVertical class="w-4 h-4" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem :as="Link" :href="''"> Open </DropdownMenuItem>
+                  <DropdownMenuItem @click="onEdit(menu)">Edit</DropdownMenuItem>
+                  <DropdownMenuItem @click="onDestroyShow(menu)">Delete</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
+          </TableRow>
+        </template>
+      </Sortable>
+      <TableBody v-else>
+        <TableRow>
+          <TableCell class="text-center" colspan="5"> You don't have any menu yet. </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   </div>
 </template>

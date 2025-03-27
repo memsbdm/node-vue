@@ -12,7 +12,7 @@ export default class DeleteMenu {
     await menu.delete()
     const newDefaultMenu = await restaurant.related('menus').query().orderBy('order').first()
     if (newDefaultMenu) {
-      newDefaultMenu.merge({ isDefault: true })
+      newDefaultMenu.merge({ isActive: true })
       newDefaultMenu.save()
     }
     return menu

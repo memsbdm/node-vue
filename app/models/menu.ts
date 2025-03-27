@@ -13,5 +13,5 @@ export default class Menu extends compose(BaseModel, WithRestaurant) {
   declare order: number
 
   @column()
-  declare isDefault: boolean
+  declare isActive: boolean
 }

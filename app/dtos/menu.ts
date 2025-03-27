@@ -6,7 +6,7 @@ export default class MenuDto extends BaseModelDto {
   declare id: number
   declare name: string
   declare order: number
-  declare isDefault: boolean
+  declare isActive: boolean
 
   declare restaurantId: number
   declare restaurant: RestaurantDto | null
@@ -18,7 +18,7 @@ export default class MenuDto extends BaseModelDto {
     this.id = menu.id
     this.name = menu.name
     this.order = menu.order
-    this.isDefault = menu.isDefault
+    this.isActive = menu.isActive
 
     this.restaurantId = menu.restaurantId
     this.restaurant = menu.restaurant && new RestaurantDto(menu.restaurant)
