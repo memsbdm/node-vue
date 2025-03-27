@@ -58,4 +58,8 @@ export default class Restaurant extends BaseModel {
     pivotColumns: ['role_id'],
   })
   declare users: ManyToMany<typeof User>
+
+  getMenus() {
+    return (<Restaurant>this).related('menus').query().orderBy('order')
+  }
 }

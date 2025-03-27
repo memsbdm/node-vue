@@ -55,6 +55,18 @@ type RestaurantsIdGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/restaurants/active_restaurant_controller.ts').default['handle'], false>
 }
+type MenusGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/menus/store_menu_controller.ts').default['render'], false>
+}
+type MenusPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/menu.ts')['menuValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/menus/store_menu_controller.ts').default['handle'], true>
+}
+type MenusIdPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/menu.ts')['menuValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/menus/update_menu_controller.ts').default['handle'], true>
+}
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
@@ -112,6 +124,18 @@ export interface ApiDefinition {
       };
       '$get': RestaurantsIdGetHead;
       '$head': RestaurantsIdGetHead;
+    };
+  };
+  'menus': {
+    '$url': {
+    };
+    '$get': MenusGetHead;
+    '$head': MenusGetHead;
+    '$post': MenusPost;
+    ':id': {
+      '$url': {
+      };
+      '$put': MenusIdPut;
     };
   };
   'api': {
@@ -210,6 +234,27 @@ const routes = [
     path: '/restaurants/:id',
     method: ["GET","HEAD"],
     types: {} as RestaurantsIdGetHead,
+  },
+  {
+    params: [],
+    name: 'menus.store.render',
+    path: '/menus',
+    method: ["GET","HEAD"],
+    types: {} as MenusGetHead,
+  },
+  {
+    params: [],
+    name: 'menus.store.handle',
+    path: '/menus',
+    method: ["POST"],
+    types: {} as MenusPost,
+  },
+  {
+    params: ["id"],
+    name: 'menus.update.handle',
+    path: '/menus/:id',
+    method: ["PUT"],
+    types: {} as MenusIdPut,
   },
   {
     params: [],

@@ -1,6 +1,8 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const UpdateMenuController = () => import('#controllers/menus/update_menu_controller')
+const StoreMenuController = () => import('#controllers/menus/store_menu_controller')
 const ActiveRestaurantController = () => import('#controllers/restaurants/active_restaurant_controller')
 const StoreRestaurantController = () => import('#controllers/restaurants/store_restaurant_controller')
 const RegisterController = () => import('#controllers/auth/register_controller')
@@ -8,7 +10,7 @@ const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 const ForgotPasswordController = () => import('#controllers/auth/forgot_password_controller')
 
-router.on('/').renderInertia('home').use(middleware.auth()).use(middleware.restaurant())
+router.on('/').renderInertia('home').use([middleware.auth(), middleware.restaurant()])
 
 router
   .group(() => {
@@ -33,3 +35,12 @@ router.group(() => {
   .use(middleware.auth())
   .prefix('/restaurants')
   .as('restaurants')
+
+router.group(() => {
+  router.get('/', [StoreMenuController, 'render']).as('store.render')
+  router.post('/', [StoreMenuController, 'handle']).as('store.handle')
+  router.put('/:id', [UpdateMenuController, 'handle']).as('update.handle')
+})
+  .use([middleware.auth(), middleware.restaurant()])
+  .prefix('/menus')
+  .as('menus')

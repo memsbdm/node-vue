@@ -26,6 +26,6 @@ export default class StoreRestaurantController {
     this.setActiveRestaurant.handle({ id: restaurant.id })
     session.flash('success', 'Successfully added!')
 
-    return response.redirect().toPath('/')
+    return response.redirect().toRoute('menus.store.render')
   }
 }

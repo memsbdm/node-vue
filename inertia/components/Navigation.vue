@@ -2,6 +2,7 @@
 import { Menu, Slash, Route } from 'lucide-vue-next'
 import RestaurantSelect from './RestaurantSelect.vue'
 import RestaurantDto from '#dtos/restaurant'
+import { tuyau } from '~/core/providers/tuyau'
 
 const props = defineProps<{
   restaurant: RestaurantDto
@@ -11,7 +12,10 @@ const props = defineProps<{
 
 <template>
   <nav class="hidden gap-5 text-sm items-center md:flex lg:gap-6">
-    <Link href="/menus" class="flex items-center gap-2 text-lg font-semibold md:text-base">
+    <Link
+      :href="tuyau.$url('menus.store.render')"
+      class="flex items-center gap-2 text-lg font-semibold md:text-base"
+    >
       <Route class="h-6 w-6" />
 
       <span class="sr-only">Restaurant App</span>
@@ -25,7 +29,11 @@ const props = defineProps<{
     </div>
 
     <!-- TODO -->
-    <Link href="/courses" class="desktop-link" :class="{ active: $page.url.startsWith('/menus') }">
+    <Link
+      :href="tuyau.$url('menus.store.render')"
+      class="desktop-link"
+      :class="{ active: $page.url.startsWith('/menus') }"
+    >
       Menus
     </Link>
 
@@ -65,7 +73,11 @@ const props = defineProps<{
 
         <RestaurantSelect v-bind="props" />
 
-        <Link href="/menus" class="mobile-link" :class="{ active: $page.url.startsWith('/menus') }">
+        <Link
+          :href="tuyau.$url('menus.store.render')"
+          class="mobile-link"
+          :class="{ active: $page.url.startsWith('/menus') }"
+        >
           Menus
         </Link>
 
