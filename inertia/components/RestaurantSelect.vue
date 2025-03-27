@@ -50,6 +50,7 @@ function onSubmit() {
 
       <DropdownMenuSeparator />
 
+      <!-- TODO -->
       <DropdownMenuItem @click="router.get(tuyau.$url(''))">
         Edit {{ restaurant.name }}
       </DropdownMenuItem>

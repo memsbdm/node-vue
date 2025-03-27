@@ -67,6 +67,10 @@ type MenusIdPut = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/menu.ts')['menuValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/menus/update_menu_controller.ts').default['handle'], true>
 }
+type MenusIdDelete = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/menus/delete_menu_controller.ts').default['handle'], false>
+}
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
@@ -136,6 +140,7 @@ export interface ApiDefinition {
       '$url': {
       };
       '$put': MenusIdPut;
+      '$delete': MenusIdDelete;
     };
   };
   'api': {
@@ -255,6 +260,13 @@ const routes = [
     path: '/menus/:id',
     method: ["PUT"],
     types: {} as MenusIdPut,
+  },
+  {
+    params: ["id"],
+    name: 'menus.delete.handle',
+    path: '/menus/:id',
+    method: ["DELETE"],
+    types: {} as MenusIdDelete,
   },
   {
     params: [],

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import MenuDto from '#dtos/menu'
 import RestaurantDto from '#dtos/restaurant'
-import { Pencil, Plus } from 'lucide-vue-next'
+import { Pencil, Plus, Trash2 } from 'lucide-vue-next'
 import { ref, watchEffect } from 'vue'
 import { useResourceActions } from '~/composables/resource_actions'
 import { tuyau } from '~/core/providers/tuyau'
@@ -12,7 +12,7 @@ const props = defineProps<{
 }>()
 
 const list = ref(props.menus)
-const { form, dialog, onSuccess } = useResourceActions<MenuDto>()({
+const { form, dialog, destroy, onSuccess } = useResourceActions<MenuDto>()({
   name: '',
 })
 
@@ -22,6 +22,10 @@ function onEdit(resource: MenuDto) {
   dialog.value.open(resource, {
     name: resource.name,
   })
+}
+
+function onDestroyShow(resource: MenuDto) {
+  destroy.value.open(resource)
 }
 </script>
 
@@ -53,6 +57,9 @@ function onEdit(resource: MenuDto) {
           <Button size="xs" @click="onEdit(item)">
             <Pencil class="w-3 h-3" aria-label="Edit Menu" />
           </Button>
+          <Button size="xs" variant="destructive" @click="onDestroyShow(item)">
+            <Trash2 class="w-3 h-3" aria-label="Delete Menu" />
+          </Button>
         </div>
       </li>
     </ul>
@@ -71,5 +78,17 @@ function onEdit(resource: MenuDto) {
     >
       <FormInput label="Name" v-model="form.name" :error="form.errors.name" />
     </FormDialog>
+
+    <ConfirmDestroyDialog
+      v-model:open="destroy.isOpen"
+      title="Delete Menu?"
+      :action-href="
+        destroy.resource
+          ? tuyau.$url('menus.delete.handle', { params: { id: destroy.resource.id } })
+          : ''
+      "
+    >
+      Are you sure you'd like to delete your <strong>{{ destroy.resource?.name }}</strong> menu?
+    </ConfirmDestroyDialog>
   </div>
 </template>
