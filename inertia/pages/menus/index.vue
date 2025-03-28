@@ -4,7 +4,6 @@ import RestaurantDto from '#dtos/restaurant'
 import { Link, router } from '@inertiajs/vue3'
 import { EllipsisVertical, Plus, GripVertical } from 'lucide-vue-next'
 import { ref, watchEffect } from 'vue'
-import { useResourceActions } from '~/composables/resource_actions'
 import { tuyau } from '~/core/providers/tuyau'
 import Sortable from 'vuedraggable'
 
@@ -13,20 +12,8 @@ const props = defineProps<{
   menus: MenuDto[]
 }>()
 
+const actions = ref()
 const list = ref(props.menus)
-const { form, dialog, destroy, onSuccess } = useResourceActions<MenuDto>()({
-  name: '',
-})
-
-function onEdit(resource: MenuDto) {
-  dialog.value.open(resource, {
-    name: resource.name,
-  })
-}
-
-function onDestroyShow(resource: MenuDto) {
-  destroy.value.open(resource)
-}
 
 function onOrderUpdate() {
   const ids = list.value.map((menu) => menu.id)
@@ -43,43 +30,11 @@ watchEffect(() => (list.value = props.menus))
     <div class="flex items-center justify-between mb-3">
       <h1 class="text-2xl font-bold px-2">Menus</h1>
 
-      <Button size="sm" variant="ghost" @click="dialog.open()">
+      <Button size="sm" variant="ghost" @click="actions.create()">
         <Plus class="w-3 h-3 mr-2" />
         Add Menu
       </Button>
     </div>
-
-    <FormDialog
-      resource="Menu"
-      v-model:open="dialog.isOpen"
-      :editing="!!dialog.resource?.id"
-      :processing="form.processing"
-      @create="form.post(tuyau.$url('menus.store.handle'), { onSuccess })"
-      @update="
-        form.put(
-          dialog.resource
-            ? tuyau.$url('menus.update.handle', { params: { id: dialog.resource?.id } })
-            : '',
-          {
-            onSuccess,
-          }
-        )
-      "
-    >
-      <FormInput label="Name" v-model="form.name" :error="form.errors.name" />
-    </FormDialog>
-
-    <ConfirmDestroyDialog
-      v-model:open="destroy.isOpen"
-      title="Delete Menu?"
-      :action-href="
-        destroy.resource
-          ? tuyau.$url('menus.delete.handle', { params: { id: destroy.resource.id } })
-          : ''
-      "
-      >Are you sure to delete <strong>{{ destroy.resource?.name }}</strong
-      >?</ConfirmDestroyDialog
-    >
 
     <Table>
       <TableHeader>
@@ -108,7 +63,7 @@ watchEffect(() => (list.value = props.menus))
                   <GripVertical class="w-4 h-4" />
                 </div>
                 <Link
-                  :href="''"
+                  :href="tuyau.$url('menus.show.render', { params: { id: menu.id } })"
                   class="hover:underline"
                   :class="menu.isActive ? 'font-semibold' : ''"
                 >
@@ -125,9 +80,14 @@ watchEffect(() => (list.value = props.menus))
                   <EllipsisVertical class="w-4 h-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem :as="Link" :href="''"> Open </DropdownMenuItem>
-                  <DropdownMenuItem @click="onEdit(menu)">Edit</DropdownMenuItem>
-                  <DropdownMenuItem @click="onDestroyShow(menu)">Delete</DropdownMenuItem>
+                  <DropdownMenuItem
+                    :as="Link"
+                    :href="tuyau.$url('menus.show.render', { params: { id: menu.id } })"
+                  >
+                    Open
+                  </DropdownMenuItem>
+                  <DropdownMenuItem @click="actions.edit(menu)">Edit</DropdownMenuItem>
+                  <DropdownMenuItem @click="actions.destroy(menu)">Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
@@ -140,5 +100,7 @@ watchEffect(() => (list.value = props.menus))
         </TableRow>
       </TableBody>
     </Table>
+
+    <MenuActions ref="actions" />
   </div>
 </template>
