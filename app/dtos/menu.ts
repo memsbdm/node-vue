@@ -8,8 +8,10 @@ export default class MenuDto extends BaseModelDto {
   declare order: number
   declare isActive: boolean
 
-  declare restaurantId: number
+  declare restaurantId: string
   declare restaurant: RestaurantDto | null
+
+  declare meta: Record<string, any>
 
   constructor(menu?: Menu) {
     super()
@@ -22,5 +24,7 @@ export default class MenuDto extends BaseModelDto {
 
     this.restaurantId = menu.restaurantId
     this.restaurant = menu.restaurant && new RestaurantDto(menu.restaurant)
+
+    this.meta = menu.$extras
   }
 }

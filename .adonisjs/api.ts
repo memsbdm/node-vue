@@ -79,6 +79,18 @@ type MenusIdDelete = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/menus/delete_menu_controller.ts').default['handle'], false>
 }
+type CategoriesMenusIdCategoriesPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/category.ts')['categoryValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/categories/store_category_controller.ts').default['handle'], true>
+}
+type CategoriesMenusIdCategoriesIdPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/category.ts')['categoryValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/categories/update_category_controller.ts').default['handle'], true>
+}
+type CategoriesMenusIdCategoriesIdDelete = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/categories/delete_category_controller.ts').default['handle'], false>
+}
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
@@ -156,6 +168,23 @@ export interface ApiDefinition {
       '$url': {
       };
       '$put': MenusOrderPut;
+    };
+  };
+  'categories': {
+    'menus': {
+      ':menuId': {
+        'categories': {
+          '$url': {
+          };
+          '$post': CategoriesMenusIdCategoriesPost;
+          ':categoryId': {
+            '$url': {
+            };
+            '$put': CategoriesMenusIdCategoriesIdPut;
+            '$delete': CategoriesMenusIdCategoriesIdDelete;
+          };
+        };
+      };
     };
   };
   'api': {
@@ -296,6 +325,27 @@ const routes = [
     path: '/menus/:id',
     method: ["DELETE"],
     types: {} as MenusIdDelete,
+  },
+  {
+    params: ["menuId"],
+    name: 'categories.store.handle',
+    path: '/categories/menus/:menuId/categories',
+    method: ["POST"],
+    types: {} as CategoriesMenusIdCategoriesPost,
+  },
+  {
+    params: ["menuId","categoryId"],
+    name: 'categories.update.handle',
+    path: '/categories/menus/:menuId/categories/:categoryId',
+    method: ["PUT"],
+    types: {} as CategoriesMenusIdCategoriesIdPut,
+  },
+  {
+    params: ["menuId","categoryId"],
+    name: 'categories.delete.handle',
+    path: '/categories/menus/:menuId/categories/:categoryId',
+    method: ["DELETE"],
+    types: {} as CategoriesMenusIdCategoriesIdDelete,
   },
   {
     params: [],

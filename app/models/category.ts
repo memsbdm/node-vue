@@ -1,8 +1,9 @@
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Menu from './menu.js'
 import { compose } from '@adonisjs/core/helpers'
 import { WithRestaurant } from './mixins/with_restaurant.js'
+import Article from './article.js'
 
 export default class Category extends compose(BaseModel, WithRestaurant) {
   @column({ isPrimary: true })
@@ -10,6 +11,9 @@ export default class Category extends compose(BaseModel, WithRestaurant) {
 
   @column()
   declare name: string
+
+  @column()
+  declare description: string | null
 
   @column()
   declare order: number
@@ -22,4 +26,7 @@ export default class Category extends compose(BaseModel, WithRestaurant) {
 
   @belongsTo(() => Menu)
   declare menu: BelongsTo<typeof Menu>
+
+  @hasMany(() => Article)
+  declare articles: HasMany<typeof Article>
 }
