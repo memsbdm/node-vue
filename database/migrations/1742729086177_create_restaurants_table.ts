@@ -9,13 +9,15 @@ export default class extends BaseSchema {
       table.timestamp('created_at')
       table.timestamp('updated_at')
       table.string('name', 50).notNullable()
+      table.string('alias').notNullable()
       table.string('description').nullable()
       table.string('address').notNullable()
       table.float('lat', 10, 6).nullable()
       table.float('lng', 10, 6).nullable()
       table.string('phone', 30).nullable()
       table.string('image_url').nullable()
-      table.string('place_id').unique().notNullable()
+      table.boolean('is_verified').notNullable().defaultTo(false)
+      table.string('place_id').notNullable()
     })
   }
 

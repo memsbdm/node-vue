@@ -10,12 +10,14 @@ export default class RestaurantDto extends BaseModelDto {
   declare createdAt: string
   declare updatedAt: string
   declare name: string
+  declare alias: string
   declare description: string | null
   declare address: string
   declare lat: number | null
   declare lng: number | null
   declare phone: string | null
   declare imageUrl: string | null
+  declare isVerified: boolean
   declare placeId: string
   declare menus: MenuDto[]
   declare categories: CategoryDto[]
@@ -30,12 +32,14 @@ export default class RestaurantDto extends BaseModelDto {
     this.createdAt = restaurant.createdAt.toISO()!
     this.updatedAt = restaurant.updatedAt.toISO()!
     this.name = restaurant.name
+    this.alias = restaurant.alias
     this.description = restaurant.description
     this.address = restaurant.address
     this.lat = restaurant.lat
     this.lng = restaurant.lng
     this.phone = restaurant.phone
     this.imageUrl = restaurant.imageUrl
+    this.isVerified = restaurant.isVerified
     this.placeId = restaurant.placeId
     this.menus = MenuDto.fromArray(restaurant.menus)
     this.categories = CategoryDto.fromArray(restaurant.categories)

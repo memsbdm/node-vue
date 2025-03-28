@@ -21,6 +21,9 @@ export default class Restaurant extends BaseModel {
   declare name: string
 
   @column()
+  declare alias: string
+
+  @column()
   declare description: string | null
 
   @column()
@@ -37,6 +40,9 @@ export default class Restaurant extends BaseModel {
 
   @column()
   declare imageUrl: string | null
+
+  @column()
+  declare isVerified: boolean
 
   @column()
   declare placeId: string

@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import RestaurantDto from '#dtos/restaurant'
-import { router, useForm } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import { ChevronsUpDown } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { tuyau } from '~/core/providers/tuyau'
 import FormDialog from './FormDialog.vue'
 import { watchEffect } from 'vue'
 import { useResourceActions } from '~/composables/resource_actions'
-import { StoreRestaurantDto } from '#dtos/store_restaurant'
 
 const props = defineProps<{
   restaurant: RestaurantDto
@@ -35,7 +34,7 @@ function onSubmit() {
 <template>
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
-      <Button variant="ghost">{{ restaurant.name }}<ChevronsUpDown class="w-4 h-4 ml-2" /></Button>
+      <Button variant="ghost">{{ restaurant.alias }}<ChevronsUpDown class="w-4 h-4 ml-2" /></Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
       <DropdownMenuLabel>Your Restaurants ({{ restaurants.length }})</DropdownMenuLabel>
@@ -44,7 +43,7 @@ function onSubmit() {
 
       <DropdownMenuRadioGroup v-model="restaurantId" @update:modelValue="onRestaurantChange">
         <DropdownMenuRadioItem v-for="rest in restaurants" :key="rest.id" :value="rest.id">
-          {{ rest.name }}
+          {{ rest.alias }}
         </DropdownMenuRadioItem>
       </DropdownMenuRadioGroup>
 
@@ -52,7 +51,7 @@ function onSubmit() {
 
       <!-- TODO -->
       <DropdownMenuItem @click="router.get(tuyau.$url(''))">
-        Edit {{ restaurant.name }}
+        Edit {{ restaurant.alias }}
       </DropdownMenuItem>
       <DropdownMenuItem @click="dialog.open()">Add Restaurant</DropdownMenuItem>
     </DropdownMenuContent>

@@ -23,6 +23,7 @@ export default class PlaceDetails {
 
     const dto: StoreRestaurantDto = {
       name: json.displayName.text,
+      alias: json.displayName.text,
       address: json.formattedAddress,
       lat: json.location?.latitude,
       lng: json.location?.longitude,
