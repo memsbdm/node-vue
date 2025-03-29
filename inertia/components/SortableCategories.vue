@@ -52,15 +52,16 @@ function onEdit(resource: CategoryDto) {
               <GripVertical class="w-4 h-4" />
             </div>
             <span class="font-bold">{{ category.name }}</span>
-            <span class="text-slate-400 text-sm slashed-zero hidden md:inline-block">
-              {{ category.articles.length }} Articles
-            </span>
 
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger as-child>
-                  <span class="text-slate-700 text-sm slashed-zero hidden md:inline-block">{{
-                    category.description ? category.description.substring(0, 50) + '...' : ''
+                  <span class="text-slate-500 text-sm slashed-zero hidden md:inline-block">{{
+                    category.description
+                      ? category.description.length > 50
+                        ? category.description.substring(0, 50) + '...'
+                        : category.description
+                      : ''
                   }}</span>
                 </TooltipTrigger>
 
@@ -94,6 +95,7 @@ function onEdit(resource: CategoryDto) {
             </DropdownMenu>
           </div>
         </div>
+        <SortableArticles v-model="categories[index]" :menu="menu" />
       </li>
     </template>
   </Sortable>

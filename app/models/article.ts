@@ -21,6 +21,9 @@ export default class Article extends compose(BaseModel, WithRestaurant) {
   declare imageUrl: string | null
 
   @column()
+  declare order: number
+
+  @column()
   declare categoryId: number
 
   @belongsTo(() => Category)

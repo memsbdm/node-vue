@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.string('description').notNullable()
       table.float('price').notNullable()
       table.string('image_url').nullable()
+      table.integer('order').unsigned().notNullable().defaultTo(0)
       table
         .integer('category_id')
         .unsigned()

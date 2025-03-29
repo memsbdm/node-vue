@@ -9,10 +9,11 @@ export default class ArticleDto extends BaseModelDto {
   declare description: string
   declare price: number
   declare imageUrl: string | null
+  declare order: number
   declare categoryId: number
   declare category: CategoryDto | null
 
-  declare restaurantId: number
+  declare restaurantId: string
   declare restaurant: RestaurantDto | null
 
   constructor(article?: Article) {
@@ -24,6 +25,7 @@ export default class ArticleDto extends BaseModelDto {
     this.description = article.description
     this.price = article.price
     this.imageUrl = article.imageUrl
+    this.order = article.order
     this.categoryId = article.categoryId
     this.category = article.category && new CategoryDto(article.category)
 
