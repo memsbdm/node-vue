@@ -65,7 +65,7 @@ function onEdit(resource: CategoryDto) {
                   }}</span>
                 </TooltipTrigger>
 
-                <TooltipContent>
+                <TooltipContent v-if="category.description?.length > 50">
                   <span>{{ category.description }}</span>
                 </TooltipContent>
               </Tooltip>

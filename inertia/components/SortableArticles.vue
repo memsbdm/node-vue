@@ -24,10 +24,15 @@ const category = computed({
   set: (value) => emit('update:modelValue', value),
 })
 
-const { form, dialog, destroy, onSuccess } = useResourceActions<ArticleDto>()({
+const { form, dialog, destroy, onSuccess } = useResourceActions<ArticleDto>()<{
+  name: string
+  description: string
+  price: number | null
+  categoryId: number
+}>({
   name: '',
   description: '',
-  price: 0,
+  price: null,
   categoryId: category.value.id,
 })
 
@@ -69,7 +74,7 @@ function onEdit(resource: ArticleDto) {
                 }}</span>
               </TooltipTrigger>
 
-              <TooltipContent>
+              <TooltipContent v-if="article.description.length > 50">
                 <span>{{ article.description }}</span>
               </TooltipContent>
             </Tooltip>
