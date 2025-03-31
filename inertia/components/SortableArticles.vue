@@ -64,7 +64,9 @@ function onEdit(resource: ArticleDto) {
           </span>
           <span class="text-sm">{{ article.name }}</span>
           <!-- TODO: restaurant currency -->
-          <span class="text-slate-400 text-xs hidden lg:flex items-center gap-2">3.99 EUR</span>
+          <span class="text-slate-400 text-xs hidden lg:flex items-center gap-2"
+            >{{ article.price.toFixed(2) }} EUR</span
+          >
 
           <div class="opacity-0 group-hover:opacity-100 duration-300 ml-2 relative">
             <Button

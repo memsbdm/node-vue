@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3'
 import CategoryDto from '#dtos/category'
 import type MenuDto from '#dtos/menu'
 import { EllipsisVertical, GripVertical, Pencil, Plus } from 'lucide-vue-next'
@@ -36,10 +37,26 @@ function onEdit(resource: CategoryDto) {
   dialog.value.open(resource, { name: resource.name, description: resource.description ?? '' })
   nextTick(() => dialogFocusEl.value.inputEl.$el.focus())
 }
+
+function onCategoryOrderChange() {
+  const ids = categories.value.map((category) => category.id)
+  router.patch(
+    tuyau.$url('categories.order.handle', { params: { menuId: props.menu.id } }),
+    { ids },
+    { preserveScroll: true }
+  )
+}
 </script>
 
 <template>
-  <Sortable v-model="categories" item-key="id" tag="ul" group="categories" handle=".handle">
+  <Sortable
+    v-model="categories"
+    item-key="id"
+    tag="ul"
+    group="categories"
+    handle=".handle"
+    @end="onCategoryOrderChange"
+  >
     <template #item="{ element: category, index }">
       <li class="flex flex-col border-b border-slate-200 pb-2 mb-2">
         <div

@@ -87,6 +87,10 @@ type MenusIdCategoriesIdPut = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/category.ts')['categoryValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/categories/update_category_controller.ts').default['handle'], true>
 }
+type MenusIdCategoriesOrderPatch = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/category.ts')['categoryOrderValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/categories/update_category_order_controller.ts').default['handle'], true>
+}
 type MenusIdCategoriesIdDelete = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/categories/delete_category_controller.ts').default['handle'], false>
@@ -191,6 +195,11 @@ export interface ApiDefinition {
           };
           '$put': MenusIdCategoriesIdPut;
           '$delete': MenusIdCategoriesIdDelete;
+        };
+        'order': {
+          '$url': {
+          };
+          '$patch': MenusIdCategoriesOrderPatch;
         };
       };
     };
@@ -358,6 +367,13 @@ const routes = [
     path: '/menus/:menuId/categories/:categoryId',
     method: ["PUT"],
     types: {} as MenusIdCategoriesIdPut,
+  },
+  {
+    params: ["menuId"],
+    name: 'categories.order.handle',
+    path: '/menus/:menuId/categories/order',
+    method: ["PATCH"],
+    types: {} as MenusIdCategoriesOrderPatch,
   },
   {
     params: ["menuId","categoryId"],

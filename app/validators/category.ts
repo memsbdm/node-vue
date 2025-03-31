@@ -6,3 +6,9 @@ export const categoryValidator = vine.compile(
     description: vine.string().maxLength(100).nullable().optional(),
   })
 )
+
+export const categoryOrderValidator = vine.compile(
+  vine.object({
+    ids: vine.array(vine.number()),
+  })
+)
