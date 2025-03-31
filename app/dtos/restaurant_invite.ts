@@ -18,7 +18,7 @@ export default class RestaurantInviteDto extends BaseModelDto {
   declare canceledByUser: UserDto | null
   declare role: RoleDto | null
 
-  declare restaurantId: number
+  declare restaurantId: string
   declare restaurant: RestaurantDto | null
 
   constructor(restaurantInvite?: RestaurantInvite) {

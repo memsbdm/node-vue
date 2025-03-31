@@ -1,5 +1,5 @@
-import { BaseModel, belongsTo, column, hasManyThrough } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasManyThrough } from '@adonisjs/lucid/types/relations'
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { compose } from '@adonisjs/core/helpers'
 import { WithRestaurant } from './mixins/with_restaurant.js'
 import Category from './category.js'

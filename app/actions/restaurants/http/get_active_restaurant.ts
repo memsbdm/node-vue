@@ -1,8 +1,6 @@
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 import SetActiveRestaurant from './set_active_restaurant.js'
-import Restaurant from '#models/restaurant'
-import db from '@adonisjs/lucid/services/db'
 
 @inject()
 export default class GetActiveRestaurant {

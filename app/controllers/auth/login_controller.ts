@@ -1,3 +1,4 @@
+import ApiLogin from '#actions/auth/http/api_login'
 import WebLogin from '#actions/auth/http/web_login'
 import { loginValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
@@ -14,5 +15,18 @@ export default class LoginController {
     await webLogin.handle({ data })
 
     return response.redirect().toPath('/')
+  }
+
+  @inject()
+  async apiHandle({ request }: HttpContext, apiLogin: ApiLogin) {
+    const data = await request.validateUsing(loginValidator)
+    const { user, token } = await apiLogin.handle({ data })
+    return {
+      user,
+      accessToken: {
+        type: 'bearer',
+        value: token.value!.release(),
+      },
+    }
   }
 }
