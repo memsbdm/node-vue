@@ -96,6 +96,7 @@ declare module 'vue' {
     TableHead: typeof import('./inertia/components/ui/table/TableHead.vue')['default']
     TableHeader: typeof import('./inertia/components/ui/table/TableHeader.vue')['default']
     TableRow: typeof import('./inertia/components/ui/table/TableRow.vue')['default']
+    Textarea: typeof import('./inertia/components/ui/textarea/Textarea.vue')['default']
     Toast: typeof import('./inertia/components/ui/toast/Toast.vue')['default']
     ToastAction: typeof import('./inertia/components/ui/toast/ToastAction.vue')['default']
     ToastClose: typeof import('./inertia/components/ui/toast/ToastClose.vue')['default']

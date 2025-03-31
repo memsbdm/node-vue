@@ -136,6 +136,7 @@ function onEdit(resource: CategoryDto) {
     />
 
     <FormInput
+      type="textarea"
       label="Description"
       v-model="form.description"
       :error="form.errors.description"

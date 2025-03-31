@@ -146,14 +146,15 @@ function onEdit(resource: ArticleDto) {
       placeholder="My category..."
     />
 
+    <FormInput label="Price" v-model="form.price" :error="form.errors.price" placeholder="3.00" />
+
     <FormInput
+      type="textarea"
       label="Description"
       v-model="form.description"
       :error="form.errors.description"
       placeholder="A cool description..."
     />
-
-    <FormInput label="Price" v-model="form.price" :error="form.errors.price" placeholder="3.00" />
   </FormDialog>
 
   <ConfirmDestroyDialog

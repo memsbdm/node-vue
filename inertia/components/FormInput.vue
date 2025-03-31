@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
+export type InputType = 'select' | 'textarea' | 'string'
+
 const props = withDefaults(
   defineProps<{
     label?: string
-    type?: string
+    type?: InputType
     modelValue?: string | number
     placeholder?: string
     error?: string
@@ -34,22 +36,16 @@ defineExpose({
     <Label class="gap-1 grid">
       <span v-if="label">{{ label }}</span>
 
-      <slot v-if="type === 'group'" />
-      <div v-else-if="type === 'color'" class="relative items-center w-full">
-        <input
-          v-model="internalValue"
-          type="color"
-          class="absolute inset-y-2 rounded w-6 h-6 start-2"
-          :disabled="disabled"
-        />
-        <Input
-          ref="inputEl"
-          v-model="internalValue"
-          class="pl-10"
-          :disabled="disabled"
-          :required="required"
-        />
-      </div>
+      <Textarea
+        v-if="type === 'textarea'"
+        v-model="internalValue"
+        ref="inputEl"
+        :type="type"
+        :disabled="disabled"
+        :required="required"
+        :placeholder="placeholder"
+      />
+
       <Select
         v-else-if="type === 'select'"
         v-model="internalValue"
