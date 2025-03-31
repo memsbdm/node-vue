@@ -27,12 +27,12 @@ const category = computed({
 const { form, dialog, destroy, onSuccess } = useResourceActions<ArticleDto>()<{
   name: string
   description: string
-  price: number | null
+  price: number | undefined
   categoryId: number
 }>({
   name: '',
   description: '',
-  price: null,
+  price: undefined,
   categoryId: category.value.id,
 })
 
@@ -62,23 +62,9 @@ function onEdit(resource: ArticleDto) {
           <span class="text-slate-400 slashed-zero w-[3ch] text-sm hangle cursor-move">
             {{ category.order }}.{{ article.order }}
           </span>
-          <span class="font-medium">{{ article.name }}</span>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger as-child>
-                <span class="text-slate-500 text-sm slashed-zero hidden md:inline-block">{{
-                  article.description.length > 50
-                    ? article.description.substring(0, 50) + '...'
-                    : article.description
-                }}</span>
-              </TooltipTrigger>
-
-              <TooltipContent v-if="article.description.length > 50">
-                <span>{{ article.description }}</span>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <span class="text-sm">{{ article.name }}</span>
+          <!-- TODO: restaurant currency -->
+          <span class="text-slate-400 text-xs hidden lg:flex items-center gap-2">3.99 EUR</span>
 
           <div class="opacity-0 group-hover:opacity-100 duration-300 ml-2 relative">
             <Button
@@ -122,7 +108,7 @@ function onEdit(resource: ArticleDto) {
     :editing="!!dialog.resource?.id"
     :processing="form.processing"
     @create="
-      form.post(tuyau.$url('articles.store.handle', { params: { menuId: menu.id } }), {
+      form.post(tuyau.$url('articles.store.handle'), {
         onSuccess,
         preserveScroll: true,
       })
@@ -131,7 +117,7 @@ function onEdit(resource: ArticleDto) {
       form.put(
         dialog.resource
           ? tuyau.$url('articles.update.handle', {
-              params: { menuId: menu.id, categoryId: dialog.resource.id },
+              params: { id: dialog.resource.id },
             })
           : '',
         { onSuccess, preserveScroll: true }
@@ -163,7 +149,7 @@ function onEdit(resource: ArticleDto) {
     :action-href="
       destroy.resource
         ? tuyau.$url('articles.delete.handle', {
-            params: { menuId: menu.id, categoryId: destroy.resource.id },
+            params: { id: destroy.resource.id },
           })
         : ''
     "

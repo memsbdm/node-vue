@@ -7,10 +7,6 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types'
 import type { InferInput } from '@vinejs/vine/types'
 
-type ApiV1GooglePlacesautocompletePost = {
-  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
-  response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
-}
 type AuthRegisterGetHead = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/auth/register_controller.ts').default['render'], false>
@@ -99,18 +95,19 @@ type ArticlesPost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/article.ts')['articleValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/articles/store_article_controller.ts').default['handle'], true>
 }
+type ArticlesIdPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/article.ts')['articleValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/articles/update_article_controller.ts').default['handle'], true>
+}
+type ArticlesIdDelete = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/articles/delete_article_controller.ts').default['handle'], false>
+}
+type ApiV1GooglePlacesautocompletePost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
+}
 export interface ApiDefinition {
-  'api': {
-    'v1': {
-      'google': {
-        'places-autocomplete': {
-          '$url': {
-          };
-          '$post': ApiV1GooglePlacesautocompletePost;
-        };
-      };
-    };
-  };
   'auth': {
     'register': {
       '$url': {
@@ -202,16 +199,26 @@ export interface ApiDefinition {
     '$url': {
     };
     '$post': ArticlesPost;
+    ':id': {
+      '$url': {
+      };
+      '$put': ArticlesIdPut;
+      '$delete': ArticlesIdDelete;
+    };
+  };
+  'api': {
+    'v1': {
+      'google': {
+        'places-autocomplete': {
+          '$url': {
+          };
+          '$post': ApiV1GooglePlacesautocompletePost;
+        };
+      };
+    };
   };
 }
 const routes = [
-  {
-    params: [],
-    name: 'api.google.autocomplete',
-    path: '/api/v1/google/places-autocomplete',
-    method: ["POST"],
-    types: {} as ApiV1GooglePlacesautocompletePost,
-  },
   {
     params: [],
     name: 'auth.register.render',
@@ -365,6 +372,27 @@ const routes = [
     path: '/articles',
     method: ["POST"],
     types: {} as ArticlesPost,
+  },
+  {
+    params: ["id"],
+    name: 'articles.update.handle',
+    path: '/articles/:id',
+    method: ["PUT"],
+    types: {} as ArticlesIdPut,
+  },
+  {
+    params: ["id"],
+    name: 'articles.delete.handle',
+    path: '/articles/:id',
+    method: ["DELETE"],
+    types: {} as ArticlesIdDelete,
+  },
+  {
+    params: [],
+    name: 'api.google.autocomplete',
+    path: '/api/v1/google/places-autocomplete',
+    method: ["POST"],
+    types: {} as ApiV1GooglePlacesautocompletePost,
   },
 ] as const;
 export const api = {

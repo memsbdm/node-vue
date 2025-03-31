@@ -53,23 +53,12 @@ function onEdit(resource: CategoryDto) {
             </div>
             <span class="font-bold">{{ category.name }}</span>
 
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger as-child>
-                  <span class="text-slate-500 text-sm slashed-zero hidden md:inline-block">{{
-                    category.description
-                      ? category.description.length > 50
-                        ? category.description.substring(0, 50) + '...'
-                        : category.description
-                      : ''
-                  }}</span>
-                </TooltipTrigger>
-
-                <TooltipContent v-if="category.description?.length > 50">
-                  <span>{{ category.description }}</span>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <span
+              v-if="!category.description"
+              class="text-orange-400 text-xs hidden sm:flex items-center gap-2"
+            >
+              Missing description
+            </span>
 
             <div class="opacity-0 group-hover:opacity-100 duration-300 ml-2 relative">
               <Button
