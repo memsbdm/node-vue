@@ -82,10 +82,7 @@ function onArticleOrderChange() {
             </div>
             <span class="font-bold">{{ category.name }}</span>
 
-            <span
-              v-if="!category.description"
-              class="text-orange-400 text-xs hidden sm:flex items-center gap-2"
-            >
+            <span v-if="!category.description" class="text-orange-400 text-xs items-center gap-2">
               Missing description
             </span>
 

@@ -59,7 +59,7 @@ const form = useForm({
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div class="flex items-center gap-2">
           <Checkbox v-model="form.remember" />
-          <span>Remember me</span>
+          <span class="text-sm">Remember me</span>
         </div>
 
         <Link :href="tuyau.$url('auth.forgot-password.render')" class="text-sm underline"

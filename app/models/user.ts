@@ -8,6 +8,7 @@ import PasswordResetToken from './password_reset_token.js'
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Restaurant from './restaurant.js'
 import VerifyEmailToken from './verify_email_token.js'
+import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -49,4 +50,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
     pivotColumns: ['role_id'],
   })
   declare restaurants: ManyToMany<typeof Restaurant>
+
+  static accessTokens = DbAccessTokensProvider.forModel(User, {
+    expiresIn: '30 days',
+    prefix: 'oat_',
+    table: 'auth_access_tokens',
+    type: 'auth_token',
+    tokenSecretLength: 40,
+  })
 }
