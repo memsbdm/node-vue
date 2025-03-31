@@ -1,6 +1,7 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const UpdateArticleOrderController = () => import('#controllers/articles/update_article_order_controller')
 const UpdateCategoryOrderController = () => import('#controllers/categories/update_category_order_controller')
 const UpdateArticleController = () => import('#controllers/articles/update_article_controller')
 const DeleteArticleController = () => import('#controllers/articles/delete_article_controller')
@@ -22,6 +23,9 @@ const ForgotPasswordController = () => import('#controllers/auth/forgot_password
 
 router.on('/').renderInertia('home').use([middleware.auth(), middleware.restaurant()])
 
+/*
+** Auth
+*/
 router
   .group(() => {
     router.get('/register', [RegisterController, 'render']).as('register.render').use(middleware.guest())
@@ -37,6 +41,9 @@ router
   .prefix('/auth')
   .as('auth')
 
+/*
+** Restaurants
+*/
 router.group(() => {
   router.get('/create', [StoreRestaurantController, 'render']).as('create.render')
   router.post('/create', [StoreRestaurantController, 'handle']).as('create.handle')
@@ -46,6 +53,9 @@ router.group(() => {
   .prefix('/restaurants')
   .as('restaurants')
 
+/*
+** Menus
+*/
 router.group(() => {
   router.get('/', [StoreMenuController, 'render']).as('store.render')
   router.get('/:id', [ShowMenuController, 'render']).as('show.render')
@@ -58,6 +68,9 @@ router.delete('/:id', [DeleteMenuController, 'handle']).as('delete.handle')
   .prefix('/menus')
   .as('menus')
 
+/*
+** Categories
+*/
 router.group(()=>{
   router.post('/menus/:menuId/categories', [StoreCategoryController,'handle']).as('store.handle')
   router.put('/menus/:menuId/categories/:categoryId', [UpdateCategoryController,'handle']).as('update.handle')
@@ -67,6 +80,9 @@ router.group(()=>{
   .use([middleware.auth(), middleware.restaurant()])
   .as('categories')
 
+/*
+** Articles
+*/
 router.group(()=>{
   router.post('/', [StoreArticleController,'handle']).as('store.handle')
   router.put('/:id', [UpdateArticleController,'handle']).as('update.handle')
@@ -75,3 +91,5 @@ router.group(()=>{
   .use([middleware.auth(), middleware.restaurant()])
   .prefix('/articles')
   .as('articles')
+
+router.patch('/menus/:menuId/articles/order', [UpdateArticleOrderController, 'handle']).use([middleware.auth(), middleware.restaurant()]).as('articles.order.handle')

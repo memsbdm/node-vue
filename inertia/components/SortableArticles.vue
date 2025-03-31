@@ -16,7 +16,7 @@ const props = defineProps<{
   modelValue: CategoryDto
 }>()
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'end'])
 const dialogFocusEl = ref()
 
 const category = computed({
@@ -48,7 +48,14 @@ function onEdit(resource: ArticleDto) {
 </script>
 
 <template>
-  <Sortable v-model="category.articles" item-key="id" tag="ul" group="articles" handle=".handle">
+  <Sortable
+    v-model="category.articles"
+    item-key="id"
+    tag="ul"
+    group="articles"
+    handle=".handle"
+    @end="$emit('end')"
+  >
     <template #item="{ element: article }">
       <li
         class="flex flex-wrap items-center justify-between gap-2 rounded-md px-2 py-1.5 hover:bg-slate-50 duration-300 group relative"

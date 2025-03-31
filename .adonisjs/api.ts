@@ -107,6 +107,10 @@ type ArticlesIdDelete = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/articles/delete_article_controller.ts').default['handle'], false>
 }
+type MenusIdArticlesOrderPatch = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/article.ts')['articleOrderValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/articles/update_article_order_controller.ts').default['handle'], true>
+}
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
@@ -200,6 +204,13 @@ export interface ApiDefinition {
           '$url': {
           };
           '$patch': MenusIdCategoriesOrderPatch;
+        };
+      };
+      'articles': {
+        'order': {
+          '$url': {
+          };
+          '$patch': MenusIdArticlesOrderPatch;
         };
       };
     };
@@ -402,6 +413,13 @@ const routes = [
     path: '/articles/:id',
     method: ["DELETE"],
     types: {} as ArticlesIdDelete,
+  },
+  {
+    params: ["menuId"],
+    name: 'articles.order.handle',
+    path: '/menus/:menuId/articles/order',
+    method: ["PATCH"],
+    types: {} as MenusIdArticlesOrderPatch,
   },
   {
     params: [],

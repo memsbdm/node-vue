@@ -1,7 +1,5 @@
 import Restaurant from '#models/restaurant'
-import { articleValidator } from '#validators/article'
 import db from '@adonisjs/lucid/services/db'
-import { Infer } from '@vinejs/vine/types'
 
 type Params = {
   restaurant: Restaurant

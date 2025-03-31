@@ -10,3 +10,14 @@ export const articleValidator = vine.withMetaData<RestaurantMetaData>().compile(
     categoryId: vine.number().exists(existsInRestaurant('categories')),
   })
 )
+
+export const articleOrderValidator = vine.compile(
+  vine.object({
+    categories: vine.array(
+      vine.object({
+        id: vine.number(),
+        articles: vine.array(vine.number()),
+      })
+    ),
+  })
+)
