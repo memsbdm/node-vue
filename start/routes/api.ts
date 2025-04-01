@@ -8,7 +8,7 @@ const PlacesAutocompleteController = () => import('#controllers/providers/google
 
 router.group(()=>{
   // Shared with web
-  router.post('/google/places-autocomplete', [PlacesAutocompleteController, 'handle']).use(middleware.auth({guards: ['web', 'api']})).as('api.google.autocomplete')
+  router.post('/google/places-autocomplete', [PlacesAutocompleteController, 'apiHandle']).use(middleware.auth({guards: ['web', 'api']})).as('api.google.autocomplete')
 
   // Auth
   router.post('/auth/login', [LoginController, 'apiHandle']).use(middleware.guest({ guards: ['api']}))

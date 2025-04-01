@@ -5,7 +5,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 
 export default class PlacesAutocompleteController {
   @inject()
-  async handle({ request }: HttpContext, placesAutocomplete: PlacesAutocomplete) {
+  async apiHandle({ request }: HttpContext, placesAutocomplete: PlacesAutocomplete) {
     const headers = request.headers()
     headers.accept = 'application/json'
 

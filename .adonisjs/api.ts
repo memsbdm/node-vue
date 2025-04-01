@@ -113,7 +113,19 @@ type MenusIdArticlesOrderPatch = {
 }
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
-  response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['handle'], true>
+  response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['apiHandle'], true>
+}
+type ApiV1AuthLoginPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/auth.ts')['loginValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/auth/login_controller.ts').default['apiHandle'], true>
+}
+type ApiV1AuthRegisterPost = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/auth.ts')['registerValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/auth/register_controller.ts').default['apiHandle'], true>
+}
+type ApiV1AuthLogoutDelete = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/auth/logout_controller.ts').default['apiHandle'], false>
 }
 export interface ApiDefinition {
   'auth': {
@@ -233,6 +245,23 @@ export interface ApiDefinition {
           '$url': {
           };
           '$post': ApiV1GooglePlacesautocompletePost;
+        };
+      };
+      'auth': {
+        'login': {
+          '$url': {
+          };
+          '$post': ApiV1AuthLoginPost;
+        };
+        'register': {
+          '$url': {
+          };
+          '$post': ApiV1AuthRegisterPost;
+        };
+        'logout': {
+          '$url': {
+          };
+          '$delete': ApiV1AuthLogoutDelete;
         };
       };
     };
