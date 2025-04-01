@@ -37,9 +37,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare password: string
 
   @column()
-  declare verifiedEmail: boolean
-
-  currentAccessToken?: AccessToken
+  declare isVerified: boolean
 
   @hasMany(() => PasswordResetToken)
   declare passwordResetTokens: HasMany<typeof PasswordResetToken>
@@ -60,4 +58,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
     type: 'auth_token',
     tokenSecretLength: 40,
   })
+
+  currentAccessToken?: AccessToken
 }

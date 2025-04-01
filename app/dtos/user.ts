@@ -9,7 +9,7 @@ export default class UserDto extends BaseModelDto {
   declare updatedAt: string | null
   declare fullName: string
   declare email: string
-  declare verifiedEmail: boolean
+  declare isVerified: boolean
   declare passwordResetTokens: PasswordResetTokenDto[]
   declare verifyEmailTokens: VerifyEmailTokenDto[]
 
@@ -22,7 +22,7 @@ export default class UserDto extends BaseModelDto {
     this.updatedAt = user.updatedAt?.toISO()!
     this.fullName = user.fullName
     this.email = user.email
-    this.verifiedEmail = user.verifiedEmail
+    this.isVerified = user.isVerified
     this.passwordResetTokens = PasswordResetTokenDto.fromArray(user.passwordResetTokens)
     this.verifyEmailTokens = VerifyEmailTokenDto.fromArray(user.verifyEmailTokens)
   }

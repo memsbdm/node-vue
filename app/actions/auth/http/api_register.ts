@@ -13,7 +13,7 @@ export default class ApiRegister {
   constructor(protected ctx: HttpContext) {}
 
   async handle({ data }: Params) {
-    const user = await User.create(data)
+    const user = await User.create({ ...data, isVerified: false })
     const token = await User.accessTokens.create(user)
 
     return { user, token }

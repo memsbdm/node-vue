@@ -11,10 +11,9 @@ export default class extends BaseSchema {
       table.string('full_name').notNullable()
       table.string('email', 254).notNullable()
       table.string('password').notNullable()
-      table.boolean('verified_email').defaultTo(false)
+      table.boolean('is_verified').notNullable().defaultTo(false)
     })
   }
-
   async down() {
     this.schema.dropTable(this.tableName)
   }

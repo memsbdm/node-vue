@@ -12,7 +12,7 @@ export const registerValidator = vine.compile(
         const exists = await db
           .from('users')
           .where('email', value)
-          .andWhere('verified_email', true)
+          .andWhere('is_verified', true)
           .select('id')
           .first()
         return !exists
