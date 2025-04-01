@@ -1,3 +1,4 @@
+import ApiRegister from '#actions/auth/http/api_register'
 import WebRegister from '#actions/auth/http/web_register'
 import { registerValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
@@ -21,5 +22,24 @@ export default class RegisterController {
     session.flash('success', 'Successfully logged in!')
 
     return response.redirect().toRoute('restaurants.create.render')
+  }
+
+  @inject()
+  async apiHandle({ request, response }: HttpContext, apiRegister: ApiRegister) {
+    const data = await request.validateUsing(registerValidator, {
+      messagesProvider: new SimpleMessagesProvider({
+        'fullName.required': 'The full name field must be defined',
+        'fullName.maxLength': 'The full name field must not be greater than 254 characters',
+      }),
+    })
+    const { user, token } = await apiRegister.handle({ data })
+
+    return response.status(201).send({
+      user,
+      accessToken: {
+        type: 'bearer',
+        value: token.value!.release(),
+      },
+    })
   }
 }
