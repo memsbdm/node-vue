@@ -24,8 +24,10 @@ watchEffect(() => (internalCategories.value = structuredClone(toRaw(props.catego
 
   <div class="w-full max-w-screen-lg mx-auto bg-background border rounded-xl py-4 lg:px-4">
     <div class="flex flex-wrap items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold px-4">
-        {{ menu.name }} {{ menu.isActive ? '(Active)' : '(Not active)' }}
+      <h1 class="text-2xl font-bold px-4 flex gap-3 flex-col">
+        <span v-if="menu.isActive" class="text-green-500 text-sm font-medium">Active</span>
+        <span v-if="!menu.isActive" class="text-red-500 text-sm font-medium">Not active</span>
+        {{ menu.name }}
       </h1>
       <div class="flex items-center justify-end gap-2">
         <Button size="sm" variant="ghost" @click="actions.edit(internalMenu)">
