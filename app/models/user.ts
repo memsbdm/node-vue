@@ -8,7 +8,7 @@ import PasswordResetToken from './password_reset_token.js'
 import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Restaurant from './restaurant.js'
 import VerifyEmailToken from './verify_email_token.js'
-import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -38,6 +38,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column()
   declare verifiedEmail: boolean
+
+  currentAccessToken?: AccessToken
 
   @hasMany(() => PasswordResetToken)
   declare passwordResetTokens: HasMany<typeof PasswordResetToken>
