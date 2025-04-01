@@ -13,11 +13,11 @@ const inertiaConfig = defineConfig({
    */
   sharedData: {
     user: (ctx) => {
-      const user = ctx.auth.use('web').user
+      const user = ctx.auth?.use('web').user
       return user && new UserDto(user)
     },
-    exceptions: (ctx) => ctx.session.flashMessages.get('errorsBag') ?? {},
-    messages: (ctx) => ctx.session.flashMessages.all() ?? {},
+    exceptions: (ctx) => ctx.session?.flashMessages.get('errorsBag') ?? {},
+    messages: (ctx) => ctx.session?.flashMessages.all() ?? {},
   },
 
   /**

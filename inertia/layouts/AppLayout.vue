@@ -7,9 +7,9 @@ import ToastManager from '~/components/ToastManager.vue'
 import { tuyau } from '~/core/providers/tuyau'
 
 const props = defineProps<{
-  restaurant: RestaurantDto
-  restaurants: RestaurantDto[]
-  user: UserDto
+  restaurant?: RestaurantDto
+  restaurants?: RestaurantDto[]
+  user?: UserDto
   messages: Record<string, string | Record<string, string>>
 }>()
 </script>
@@ -17,6 +17,7 @@ const props = defineProps<{
 <template>
   <div class="flex min-h-screen w-full flex-col">
     <header
+      v-if="props.user"
       class="sticky top-0 z-50 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6"
     >
       <Navigation v-bind="props" />
@@ -34,7 +35,7 @@ const props = defineProps<{
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{{ user.fullName }}</DropdownMenuLabel>
+            <DropdownMenuLabel>{{ props.user.fullName }}</DropdownMenuLabel>
 
             <DropdownMenuSeparator />
 
