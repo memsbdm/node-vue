@@ -56,10 +56,10 @@ const form = useForm({
         v-model="form.password"
         :error="form.errors.password"
         :required="true"
-        disable
+        disabled
       />
 
-      <Button type="submit" :disable="form.processing">
+      <Button type="submit" :disabled="form.processing">
         <Loader v-if="form.processing" class="mr-2 h-4 w-4 animate-spin" />
         Reset
       </Button>

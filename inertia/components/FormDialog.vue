@@ -36,7 +36,7 @@ const internalOpen = computed({
       </form>
 
       <DialogFooter>
-        <Button type="submit" :form="resource" :disable="processing">
+        <Button type="submit" :form="resource" :disabled="processing">
           <Loader v-if="processing" class="mr-2 w-4 h-4 animate-spin" />
           <span v-if="editing">Update {{ resource }}</span>
           <span v-else>Add {{ resource }}</span>
