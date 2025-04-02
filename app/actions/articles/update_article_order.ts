@@ -10,6 +10,7 @@ type Params = {
 }
 
 type SortData = Infer<typeof articleOrderValidator>
+
 type ArticleFlatData = {
   id: number
   categoryId: number
@@ -18,7 +19,7 @@ type ArticleFlatData = {
 
 export default class UpdateArticleOrder {
   static async handle({ restaurant, menuId, data }: Params) {
-    const menu = await restaurant.related('menus').query().where({ id: menuId }).firstOrFail()
+    const menu = await restaurant.related('menus').query().where('id', menuId).firstOrFail()
     const articles = await menu.related('articles').query().select('id', 'categoryId', 'order')
     const articlesData = this.#flattenData(data)
 

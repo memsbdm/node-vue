@@ -2,6 +2,7 @@ import Article from '#models/article'
 import Restaurant from '#models/restaurant'
 import { articleValidator } from '#validators/article'
 import { Infer } from '@vinejs/vine/types'
+import StoreImage from '#actions/mailer/store_image'
 
 type Params = {
   restaurant: Restaurant
@@ -11,7 +12,13 @@ type Params = {
 export default class StoreArticle {
   static async handle({ restaurant, data }: Params) {
     return restaurant.related('articles').create({
-      ...data,
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      categoryId: data.categoryId,
+      imageUrl: data.image
+        ? await StoreImage.handle({ image: data.image, path: 'articles' })
+        : null,
       order: await this.#findNextOrder(data.categoryId),
     })
   }

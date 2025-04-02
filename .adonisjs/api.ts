@@ -107,6 +107,10 @@ type ArticlesIdDelete = {
   request: unknown
   response: MakeTuyauResponse<import('../app/controllers/articles/delete_article_controller.ts').default['handle'], false>
 }
+type ArticlesIdImageDelete = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/articles/delete_article_image_controller.ts').default['handle'], false>
+}
 type MenusIdArticlesOrderPatch = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/article.ts')['articleOrderValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/articles/update_article_order_controller.ts').default['handle'], true>
@@ -236,6 +240,11 @@ export interface ApiDefinition {
       };
       '$put': ArticlesIdPut;
       '$delete': ArticlesIdDelete;
+      'image': {
+        '$url': {
+        };
+        '$delete': ArticlesIdImageDelete;
+      };
     };
   };
   'api': {
@@ -442,6 +451,13 @@ const routes = [
     path: '/articles/:id',
     method: ["DELETE"],
     types: {} as ArticlesIdDelete,
+  },
+  {
+    params: ["id"],
+    name: 'articles.delete.image.handle',
+    path: '/articles/:id/image',
+    method: ["DELETE"],
+    types: {} as ArticlesIdImageDelete,
   },
   {
     params: ["menuId"],

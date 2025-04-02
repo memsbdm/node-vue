@@ -1,4 +1,4 @@
-import StoreArticle from '#actions/store_article'
+import StoreArticle from '#actions/articles/store_article'
 import { articleValidator } from '#validators/article'
 import { withRestaurantMetaData } from '#validators/helpers/restaurant'
 import type { HttpContext } from '@adonisjs/core/http'

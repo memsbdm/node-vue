@@ -5,6 +5,7 @@ export default class StoreArticleDto {
   declare description: string
   declare price: number
   declare categoryId: number
+  declare image?: File
 
   constructor(article?: ArticleDto) {
     if (!article) return
