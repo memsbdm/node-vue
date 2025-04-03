@@ -18,6 +18,8 @@ export default class StoreRestaurantController {
   async handle({ auth, request, response, session }: HttpContext) {
     const data = await request.validateUsing(storeRestaurantValidator, {
       messagesProvider: new SimpleMessagesProvider({
+        'id.required':
+          'Please select your restaurant from the list. If not in the list, please contact the support.',
         'database.unique': 'This place is already registered',
       }),
     })

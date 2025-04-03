@@ -28,29 +28,12 @@ const props = defineProps<{
       <Slash class="text-slate-300 w-4 h-4 -rotate-12" />
     </div>
 
-    <!-- TODO -->
     <Link
       :href="tuyau.$url('menus.store.render')"
       class="desktop-link"
       :class="{ active: $page.url.startsWith('/menus') }"
     >
       Menus
-    </Link>
-
-    <Link
-      href="/categories"
-      class="desktop-link"
-      :class="{ active: $page.url.startsWith('categories') }"
-    >
-      Categories
-    </Link>
-
-    <Link
-      href="/articles"
-      class="desktop-link"
-      :class="{ active: $page.url.startsWith('/articles') }"
-    >
-      Articles
     </Link>
   </nav>
 

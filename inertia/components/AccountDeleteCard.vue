@@ -2,10 +2,6 @@
 import { useForm } from '@inertiajs/vue3'
 import { tuyau } from '~/core/providers/tuyau'
 
-defineProps<{
-  exceptions: Record<string, string>
-}>()
-
 const form = useForm({
   password: '',
 })
