@@ -27,7 +27,7 @@ export default class PlaceDetails {
       address: json.formattedAddress,
       lat: json.location?.latitude,
       lng: json.location?.longitude,
-      phone: json.internationalPhoneNumber,
+      phone: json.internationalPhoneNumber?.replace(/\s+/g, ''),
       placeId: data.id,
     }
     return dto

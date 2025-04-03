@@ -1,6 +1,8 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const DeleteRestaurantController = () => import('#controllers/settings/restaurant/delete_restaurant_controller')
+const UpdateRestaurantController = () => import('#controllers/settings/restaurant/update_restaurant_controller')
 const DeleteAccountController = () => import('#controllers/settings/accounts/delete_account_controller')
 const UpdateAccountController = () => import('#controllers/settings/accounts/update_account_controller')
 const UpdateProfileController = () => import('#controllers/settings/profile/update_profile_controller')
@@ -52,6 +54,8 @@ router.group(() => {
   router.get('/create', [StoreRestaurantController, 'render']).as('create.render')
   router.post('/create', [StoreRestaurantController, 'handle']).as('create.handle')
   router.get('/:id', [ActiveRestaurantController, 'handle']).as('active.handle')
+  router.put('/:id', [UpdateRestaurantController, 'handle']).as('update.handle')
+  router.delete('/:id', [DeleteRestaurantController, 'handle']).as('delete.handle')
 })
   .use(middleware.auth())
   .prefix('/restaurants')
@@ -121,3 +125,13 @@ router.group(()=>{
   .use([middleware.auth(), middleware.restaurant()])
   .prefix('/settings/account')
   .as('settings.account')
+
+/*
+** Settings (Restaurant)
+*/
+router.group(()=>{
+  router.get('/', [UpdateRestaurantController, 'render']).as('update.render')
+})
+  .use([middleware.auth(), middleware.restaurant()])
+  .prefix('/settings/restaurant')
+  .as('settings.restaurant')

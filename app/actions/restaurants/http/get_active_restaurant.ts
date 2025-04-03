@@ -12,12 +12,17 @@ export default class GetActiveRestaurant {
   async handle() {
     const activeId = this.ctx.restaurantId
 
-    const restaurant = await this.ctx.auth
+    let restaurant = await this.ctx.auth
       .use('web')
       .user!.related('restaurants')
       .query()
       .if(activeId, (query) => query.where('restaurants.id', activeId!))
-      .firstOrFail()
+      .first()
+
+    if (!restaurant) {
+      restaurant = await this.ctx.auth.use('web').user!.related('restaurants').query().firstOrFail()
+    }
+
     if (restaurant.id !== activeId) {
       this.setActiveRestautant.handle({ id: restaurant.id })
     }

@@ -27,7 +27,8 @@ const form = useForm({
         <FormInput
           v-model="form.password"
           type="password"
-          label="Please enter your account password to confirm deletion"
+          label="Password"
+          placeholder="Please enter your account password to confirm deletion"
           :error="form.errors.password"
         />
       </form>

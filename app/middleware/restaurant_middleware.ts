@@ -15,7 +15,6 @@ export default class RestaurantMiddleware {
     const user = ctx.auth.use('web').user!
     try {
       ctx.restaurantId = ctx.request.cookie(activeCookieName)
-
       const restaurant = await this.getActiveRestaurant.handle()
 
       const { roleId } = await db

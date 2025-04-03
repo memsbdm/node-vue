@@ -71,6 +71,7 @@ declare module 'vue' {
     MenuActions: typeof import('./inertia/components/MenuActions.vue')['default']
     Navigation: typeof import('./inertia/components/Navigation.vue')['default']
     PlaceAutocomplete: typeof import('./inertia/components/PlaceAutocomplete.vue')['default']
+    RestaurantEditCard: typeof import('./inertia/components/RestaurantEditCard.vue')['default']
     RestaurantSelect: typeof import('./inertia/components/RestaurantSelect.vue')['default']
     Select: typeof import('./inertia/components/ui/select/Select.vue')['default']
     SelectContent: typeof import('./inertia/components/ui/select/SelectContent.vue')['default']
