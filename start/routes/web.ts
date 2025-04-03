@@ -1,6 +1,7 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const DeleteAccountController = () => import('#controllers/settings/accounts/delete_account_controller')
 const UpdateAccountController = () => import('#controllers/settings/accounts/update_account_controller')
 const UpdateProfileController = () => import('#controllers/settings/profile/update_profile_controller')
 const DeleteArticleImageController = () => import('#controllers/articles/delete_article_image_controller')
@@ -115,6 +116,7 @@ router.group(()=>{
 router.group(()=>{
   router.get('/', [UpdateAccountController, 'render']).as('update.render')
   router.put('/email', [UpdateAccountController, 'handle']).as('email.handle')
+  router.delete('/', [DeleteAccountController, 'handle']).as('delete.handle')
 })
   .use([middleware.auth(), middleware.restaurant()])
   .prefix('/settings/account')

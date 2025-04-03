@@ -1,9 +1,9 @@
-import UpdateUserEmail from '#actions/update_user_email'
+import UpdateUserEmail from '#actions/settings/update_user_email'
 import { updateEmailValidator } from '#validators/setting'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class UpdateAccountController {
-  async render({ inertia }: HttpContext) {
+  render({ inertia }: HttpContext) {
     return inertia.render('settings/account')
   }
 

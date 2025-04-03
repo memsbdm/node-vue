@@ -1,4 +1,4 @@
-import UpdateUserProfile from '#actions/update_user_profile'
+import UpdateUserProfile from '#actions/settings/update_user_profile'
 import { updateProfileValidator } from '#validators/setting'
 import type { HttpContext } from '@adonisjs/core/http'
 

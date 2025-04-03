@@ -9,5 +9,6 @@ defineProps<{ user: UserDto }>()
 
   <SettingsShell>
     <AccountEmailCard :email="user.email" />
+    <AccountDeleteCard />
   </SettingsShell>
 </template>
