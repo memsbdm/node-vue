@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 
-export type InputType = 'select' | 'textarea' | 'string'
+export type InputType = 'select' | 'textarea' | 'string' | 'password' | 'email'
 
 const props = withDefaults(
   defineProps<{

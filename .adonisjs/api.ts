@@ -115,6 +115,22 @@ type MenusIdArticlesOrderPatch = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/article.ts')['articleOrderValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/articles/update_article_order_controller.ts').default['handle'], true>
 }
+type SettingsProfileGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/settings/profile/update_profile_controller.ts').default['render'], false>
+}
+type SettingsProfilePut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/setting.ts')['updateProfileValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/settings/profile/update_profile_controller.ts').default['handle'], true>
+}
+type SettingsAccountGetHead = {
+  request: unknown
+  response: MakeTuyauResponse<import('../app/controllers/settings/accounts/update_account_controller.ts').default['render'], false>
+}
+type SettingsAccountEmailPut = {
+  request: MakeTuyauRequest<InferInput<typeof import('../app/validators/setting.ts')['updateEmailValidator']>>
+  response: MakeTuyauResponse<import('../app/controllers/settings/accounts/update_account_controller.ts').default['handle'], true>
+}
 type ApiV1GooglePlacesautocompletePost = {
   request: MakeTuyauRequest<InferInput<typeof import('../app/validators/provider.ts')['placesAutocompleteValidator']>>
   response: MakeTuyauResponse<import('../app/controllers/providers/google/places_autocomplete_controller.ts').default['apiHandle'], true>
@@ -244,6 +260,26 @@ export interface ApiDefinition {
         '$url': {
         };
         '$delete': ArticlesIdImageDelete;
+      };
+    };
+  };
+  'settings': {
+    'profile': {
+      '$url': {
+      };
+      '$get': SettingsProfileGetHead;
+      '$head': SettingsProfileGetHead;
+      '$put': SettingsProfilePut;
+    };
+    'account': {
+      '$url': {
+      };
+      '$get': SettingsAccountGetHead;
+      '$head': SettingsAccountGetHead;
+      'email': {
+        '$url': {
+        };
+        '$put': SettingsAccountEmailPut;
       };
     };
   };
@@ -465,6 +501,34 @@ const routes = [
     path: '/menus/:menuId/articles/order',
     method: ["PATCH"],
     types: {} as MenusIdArticlesOrderPatch,
+  },
+  {
+    params: [],
+    name: 'settings.profile.update.render',
+    path: '/settings/profile',
+    method: ["GET","HEAD"],
+    types: {} as SettingsProfileGetHead,
+  },
+  {
+    params: [],
+    name: 'settings.profile.update.handle',
+    path: '/settings/profile',
+    method: ["PUT"],
+    types: {} as SettingsProfilePut,
+  },
+  {
+    params: [],
+    name: 'settings.account.update.render',
+    path: '/settings/account',
+    method: ["GET","HEAD"],
+    types: {} as SettingsAccountGetHead,
+  },
+  {
+    params: [],
+    name: 'settings.account.email.handle',
+    path: '/settings/account/email',
+    method: ["PUT"],
+    types: {} as SettingsAccountEmailPut,
   },
   {
     params: [],

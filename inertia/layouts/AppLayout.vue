@@ -48,7 +48,7 @@ const props = defineProps<{
             </DropdownMenuItem>
 
             <DropdownMenuItem :as="Link" href="/settings/restaurant">
-              Resturant Settings
+              Restaurant Settings
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />

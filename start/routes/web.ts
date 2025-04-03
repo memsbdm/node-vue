@@ -1,6 +1,8 @@
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
 
+const UpdateAccountController = () => import('#controllers/settings/accounts/update_account_controller')
+const UpdateProfileController = () => import('#controllers/settings/profile/update_profile_controller')
 const DeleteArticleImageController = () => import('#controllers/articles/delete_article_image_controller')
 const UpdateArticleOrderController = () => import('#controllers/articles/update_article_order_controller')
 const UpdateCategoryOrderController = () => import('#controllers/categories/update_category_order_controller')
@@ -95,3 +97,25 @@ router.group(()=>{
   .as('articles')
 
 router.patch('/menus/:menuId/articles/order', [UpdateArticleOrderController, 'handle']).use([middleware.auth(), middleware.restaurant()]).as('articles.order.handle')
+
+/*
+** Settings (Profile)
+*/
+router.group(()=>{
+  router.get('/', [UpdateProfileController, 'render']).as('update.render')
+  router.put('/', [UpdateProfileController, 'handle']).as('update.handle')
+})
+  .use([middleware.auth(), middleware.restaurant()])
+  .prefix('/settings/profile')
+  .as('settings.profile')
+
+/*
+** Settings (Account)
+*/
+router.group(()=>{
+  router.get('/', [UpdateAccountController, 'render']).as('update.render')
+  router.put('/email', [UpdateAccountController, 'handle']).as('email.handle')
+})
+  .use([middleware.auth(), middleware.restaurant()])
+  .prefix('/settings/account')
+  .as('settings.account')
