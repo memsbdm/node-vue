@@ -12,9 +12,10 @@ export default class StoreMenuController {
     })
   }
 
-  async handle({ request, response, restaurant }: HttpContext) {
+  async handle({ request, response, restaurant, session }: HttpContext) {
     const data = await request.validateUsing(menuValidator)
     const menu = await StoreMenu.handle({ restaurant, data })
+    session.flash('success', 'Menu successfully added')
 
     return response.redirect().toRoute('menus.show.render', { id: menu.id })
   }

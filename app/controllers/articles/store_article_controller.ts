@@ -4,7 +4,7 @@ import { withRestaurantMetaData } from '#validators/helpers/restaurant'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class StoreArticleController {
-  async handle({ request, response, restaurant }: HttpContext) {
+  async handle({ request, response, restaurant, session }: HttpContext) {
     const data = await request.validateUsing(
       articleValidator,
       withRestaurantMetaData(restaurant.id)
@@ -14,6 +14,8 @@ export default class StoreArticleController {
       restaurant,
       data,
     })
+
+    session.flash('success', 'New article added')
 
     return response.redirect().back()
   }
