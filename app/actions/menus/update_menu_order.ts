@@ -13,7 +13,7 @@ export default class UpdateMenuOrder {
     return this.#updateOrder(menus, ids)
   }
 
-  static async #updateOrder(menus: Menu[], ids: number[]) {
+  static #updateOrder(menus: Menu[], ids: number[]) {
     const promises = ids.map((id, order) => {
       const menu = menus.find((record) => record.id === id)
       const isActive = order === 0

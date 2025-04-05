@@ -1,3 +1,4 @@
+import DeleteImage from '#actions/mailer/delete_image'
 import Restaurant from '#models/restaurant'
 import db from '@adonisjs/lucid/services/db'
 
@@ -20,6 +21,9 @@ export default class DeleteArticle {
         .where('categoryId', article.categoryId)
         .where('order', '>', article.order)
         .decrement('order')
+      if (article.imageUrl) {
+        await DeleteImage.handle({ fileUrl: article.imageUrl })
+      }
     })
 
     return article
