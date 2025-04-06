@@ -9,10 +9,15 @@ type Params = {
 
 export default class DeleteMenu {
   static async handle({ restaurant, id }: Params) {
-    const menu = await restaurant.related('menus').query().where({ id }).firstOrFail()
-    const articles = await menu.related('articles').query()
+    const menu = await restaurant
+      .related('menus')
+      .query()
+      .where({ id })
+      .preload('articles')
+      .firstOrFail()
+
     await menu.delete()
-    await this.#deleteImagesFromStorage(articles)
+    await this.#deleteImagesFromStorage(menu.articles)
 
     const newDefaultMenu = await restaurant.related('menus').query().orderBy('order').first()
     if (newDefaultMenu) {
@@ -27,7 +32,6 @@ export default class DeleteMenu {
       if (!imageUrl) {
         return
       }
-
       return DeleteImage.handle({ fileUrl: imageUrl })
     })
     return Promise.all(promises)
